@@ -1,0 +1,19 @@
+{
+  "name": "assets",
+  "version": "1.0.0",
+  "description": "ASSETS SOURC APP",
+  "main": "Gruntfile",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "gilang",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.0.1"
+  },
+  "dependencies": {
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-uglify": "^3.1.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}
