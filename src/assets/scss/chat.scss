@@ -1,0 +1,197 @@
+$height1: 800px;
+
+#chat {
+    border: 1px solid $color3;
+    height: $height1;
+    width: 700px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    @include transform(translate(-50%, -50%));
+    #chateditor {
+        padding:10px;
+    }
+    .avatar {
+        border-radius: 30px;
+        width: 30px;
+    }
+}
+#chatroom {
+    padding-left: 0;
+}
+.group-room {
+    position: relative;
+    height: $height1;
+    width: 100%;
+    .editor-panel {
+        border-top: 1px solid $color3;
+        left: 0;
+        position: absolute;
+        bottom:0;
+        right:0;
+        padding: $gridspace;
+        text-align: left;
+        input {
+            border: 1px solid $color3;
+            width: 100%;
+        }
+        .button {
+            padding: 10px;
+            float: left;
+            text-align: center;
+        }
+        .btn-emoji {
+            span {
+                font-size: 20px;
+            }
+        }
+    }
+}
+.chat-list {
+    display: block;
+    padding: 15px;
+    height: 850px;
+    &:after,&:before {
+        content: "";
+        height: 0;
+        display: block;
+        clear: both;
+    }
+    li {
+        display: block;
+        margin-bottom: $gridspace;
+        width: 100%;
+        > span {
+            display: block;
+            max-width: 80%;
+            min-width: 50%;
+            position: relative;
+            p {
+                margin-bottom: 0;
+            }
+            .text {
+                position: relative;
+                display: block;
+                padding: $gridspace 20px 30px $gridspace;
+                &:after {
+                    bottom: 100%;
+                    content: "";
+                    height: 0;
+                    width: 0;
+                    border-left: 7px solid transparent;
+                    border-right: 7px solid transparent;
+                    border-bottom: 7px solid;
+                    position: absolute;
+                }
+            }
+        }
+        .avatar {
+            margin-bottom: 10px;
+        }
+        small {
+            bottom: 10px;
+            line-height: 1;
+            font-size: 10px;
+            position: absolute;
+            white-space: nowrap;
+        }
+    }
+    .left {
+        float: left;
+        text-align: left;
+        .text {
+            background-color: $color3;
+            &:after {
+                left: 8px;
+                border-bottom-color: $color3;
+            }
+        }
+        small {
+            right: 15px;
+        }
+        + .left {
+            .avatar {
+                display: none;
+            }
+        }
+    }
+    .right {
+        float: right;
+        text-align: right;
+        > span {
+            float: right;
+        }
+        .text {
+            background-color: $color4;
+            color: $color1;
+            padding: $gridspace $gridspace 30px 20px;
+            &:after {
+                right: 8px;
+                border-bottom-color: $color4;
+            }
+        }
+        small {
+            left: 15px;
+        }
+        + .right {
+            .avatar {
+                display: none;
+            }
+        }
+    }
+}
+#contact {
+    border-right: 1px solid $color3;
+}
+.group-contact {
+    padding-bottom: $gridspace;
+    padding-left: $gridspace;
+    padding-top: $gridspace;
+    .contact-label {
+        border-bottom: 1px solid $color3;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        .fa {
+            margin-right: 5px;
+        }
+    }
+}
+.contact-list {
+    display: block;
+    li {
+        cursor: pointer;
+        display: block;
+        padding: 8px 15px;
+        position: relative;
+        text-align: left;
+        .avatar {
+            margin-right: 5px;
+        }
+        &:hover {
+            background-color: $color3;
+        }
+        .name {
+            font-size: 12px;
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            text-overflow: ellipsis;
+        }
+        .status {
+            bottom: 8px;
+            left: 35px;
+            display: block;
+            height: 10px;
+            position: absolute;
+            width: 10px;
+            &.online {
+                background-color: $color4;
+            }
+            &.offline {
+                background-color: $color5;
+            }
+        }
+    }
+}

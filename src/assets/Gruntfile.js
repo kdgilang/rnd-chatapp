@@ -7,14 +7,14 @@ module.exports = function(grunt) {
 					style: 'compressed'
 				},
 				files: {
-					'../../app.min.css': ['scss/style.scss', 'scss/bootstrap/bootstrap.scss']
+					'../../static/css/app.min.css': ['scss/style.scss', 'scss/bootstrap/bootstrap.scss']
 				}
 			}
 		},
 	    uglify: {
 		    my_target: {
 		      files: {
-	        		'../../app.min.js': ['js/*.js']
+	        		'../../static/js/app.min.js': ['js/*.js']
 	        	}
 	      	}
 	    },

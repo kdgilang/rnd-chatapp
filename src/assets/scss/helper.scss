@@ -3,3 +3,33 @@
 * V 1.0
 * Style To Help Other File Scss
 * * * * * * * * * * * * * * * * * * * * * */
+
+// MIXIN 
+@mixin transform($args) {
+	-webkit-transform: $args;
+	-moz-transform: $args;
+	-ms-transform: $args;
+	transform: $args;
+}
+
+// CLASS
+.fa {
+	font-family: "FontAwesome";
+} 
+.list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.button {
+	outline: 0 none;
+	border: none;
+	&:hover,
+	&:active,
+	&:link,
+	&:focus,
+	&:visited {
+		outline: 0 none;
+		border: none;
+	}
+}
