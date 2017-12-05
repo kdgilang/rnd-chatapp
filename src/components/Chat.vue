@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div id="chat">
+      <FormLogin/>
       <div class="row">
         <div id="contact" class="col-4">
           <div class="group-contact">
@@ -58,7 +59,7 @@
                   </span>
                 </span>
               </li>
-                            <li class="left">
+              <li class="left">
                 <span>
                   <img src="/static/unknow.png" alt="avatar" class="avatar">
                   <span class="text">
@@ -87,12 +88,16 @@
 </template>
 
 <script>
+import FormLogin from './form-login.vue';
 export default {
   name: 'Chat',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  components: {
+    FormLogin
   }
 }
 </script>
