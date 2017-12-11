@@ -1,5 +1,5 @@
 module.exports = {
-  'add':{
+  'addUser':{
     'email':{
       'in':'body',
       'notEmpty':true,
@@ -15,11 +15,12 @@ module.exports = {
       'errorMessage':'Invalid Name'
     },
     'password': {
-        'in':'body',
-        'notEmpty':true,
-        'isLength': {
+      'in':'body',
+      'notEmpty':true,
+      'isLength': {
         'options':[{'min':8, 'max':100}]
       },
+      'errorMessage':'Invalid Password'
     }
   }
 }

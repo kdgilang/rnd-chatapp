@@ -4,10 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://127.0.0.1:27017/easychat', function(err) {
 	if(err)
 		console.log(err)
+  else 
+    console.log('connected to database')
 });
 mongoose.Promise = global.Promise;
 require('./models/users');
@@ -28,7 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(expressValidator());
 app.use('/', index);
 app.use('/users', users);
 

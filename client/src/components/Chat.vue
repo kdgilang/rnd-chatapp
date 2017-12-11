@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import FormLogin from './form-login.vue';
+import FormLogin from './form-login-register.vue';
 export default {
   name: 'Chat',
   data () {
