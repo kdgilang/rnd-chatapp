@@ -1,13 +1,13 @@
 'use strict'
 const mongoose = require('mongoose')
 const vld = require('../validations/users')
+const stz = require('../sanitizer/users')
 const users = mongoose.model('users')
 
 exports.add = (req, res) => {
-	console.log(req.body);
-	var form = req.body,
-		newuser = req.sanitize(req.body);
-	req.check(vld.addUser)
+	var form = req.body
+	stz.addUser.map(req.sanitize)
+	req.checkBody(vld.addUser)
 	req.getValidationResult().then((result) => {
 		if(result.isEmpty()) {
 			newuser.save((err, user) => {
@@ -17,7 +17,7 @@ exports.add = (req, res) => {
 					res.json(user)
 			})
 		} else {
-			res.json(result)
+			res.json(result.array()[0])
 		}
 	})
 }

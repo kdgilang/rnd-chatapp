@@ -3,7 +3,7 @@
 		<h1 class="text-center title">{{title}}</h1>
 		<span id="icon-chat" class="fa fa-comments-o"></span>
 		<div class="form-login row">
-			<form :action="urlRegister" class="form col-12 col-sm-6">
+			<form :action="urlLogin" class="form col-12 col-sm-6">
 				<div class="form-group">
 					<input class="form-control" type="text" name="email" placeholder="Email ...">
 				</div>
@@ -20,10 +20,10 @@
 					<input class="form-control" type="text" name="email" placeholder="Email ...">
 				</div>
 				<div class="form-group">
-					<input class="form-control" type="text" name="password" placeholder="Password">
+					<input class="form-control" type="password" name="password" placeholder="Password">
 				</div>
 				<div class="form-group">
-					<input class="form-control" type="text" name="repassword" placeholder="Retype Password">
+					<input class="form-control" type="password" name="repassword" placeholder="Retype Password">
 				</div>
 				<button class="btn btn-primary">sign up</button>
 			</form>

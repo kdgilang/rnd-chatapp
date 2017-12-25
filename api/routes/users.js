@@ -8,6 +8,7 @@ router.get('/', function(req, res, next) {
 
 /* GET users listing. */
 router.get('/lists/', userController.lists);
+
 /* Add user one. */
 router.post('/add/', userController.add);
 
