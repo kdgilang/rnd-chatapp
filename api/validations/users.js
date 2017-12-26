@@ -14,7 +14,7 @@ module.exports = {
       },
       errorMessage:'Invalid Name, Name at least 3 character.'
     },
-    password: {
+    password: { 
       in:'body',
       notEmpty:true,
       isLength: {
