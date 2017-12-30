@@ -1,18 +1,17 @@
-'use strict'
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
-const users = new Schema({
-	email: {
-		type: String,
-		required: 'Unknow Email Address.'
-	},
+let usersSchema = mongoose.Schema({
 	name: {
 		type: String,
 		default: 'Easy User'
 	},
+	email: {
+		type: String,
+		required: 'Unknow Email Address.'
+	},
 	password: {
 		type: String,
+		select: false,
 		required: 'Wrong Password.'
 	},
 	created_date: {
@@ -25,4 +24,4 @@ const users = new Schema({
 	}
 })
 
-module.exports = mongoose.model('users', users)
+module.exports = mongoose.model('users', usersSchema)

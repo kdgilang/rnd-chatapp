@@ -6,14 +6,16 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/easychat', function(err) {
-	if(err)
+const config = require('./config');
+mongoose.connect(config.database.getDatabaseUrl('easychat'), {useMongoClient: true}, function(err) {
+	if(err) {
 		console.log(err)
-  else 
+  } else {
     console.log('connected to database')
+  }
 });
 mongoose.Promise = global.Promise;
-require('./models/users');
+require('./models/users')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
