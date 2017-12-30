@@ -4,7 +4,8 @@
   "description": "ASSETS SOURC APP",
   "main": "Gruntfile",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "dev": "grunt watch"
   },
   "author": "gilang",
   "license": "ISC",
