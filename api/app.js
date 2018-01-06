@@ -9,13 +9,13 @@ const mongoose = require('mongoose');
 const config = require('./config');
 mongoose.connect(config.database.getDatabaseUrl('easychat'), {useMongoClient: true}, function(err) {
 	if(err) {
-		console.log(err)
+		console.log(err);
   } else {
-    console.log('connected to database')
+    console.log('connected to database');
   }
 });
 mongoose.Promise = global.Promise;
-require('./models/users')
+require('./models/users');
 
 var index = require('./routes/index');
 var users = require('./routes/users');

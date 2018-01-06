@@ -3,7 +3,7 @@ var router = express.Router();
 const userController = require('../controllers/users')
 
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.json({message:'signup'});
 });
 
 /* GET users listing. */
