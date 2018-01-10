@@ -8,7 +8,8 @@ exports.add = (req, res) => {
 	var form = req.body, newuser;
 	stz.addUser.map(req.sanitize)
 	req.checkBody(vld.addUser)
-	req.getValidationResult().then((result) => {
+	req.getValidationResult()
+	.then((result) => {
 		if(result.isEmpty()) {
 			newuser = new users(form)
 			newuser.save((err, user) => {
