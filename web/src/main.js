@@ -1,7 +1,3 @@
-// Load static files
-require('../static/css/font-awesome.min.css')
-require('../static/css/app.min.css')
-
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'

@@ -88,13 +88,16 @@
 </template>
 
 <script>
-import FormLogin from './form-login-register.vue';
+import FormLogin from './FormLoginRegister';
 export default {
   name: 'Chat',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  methods: {
+
   },
   components: {
     FormLogin
@@ -103,6 +106,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style scoped lang="sass">
+  // @import '../assets/scss/bootstrap/bootstrap'
+  // @import '../assets/scss/variable'
+  // @import '../assets/scss/helper'
+  // @import '../assets/scss/chat'
 </style>

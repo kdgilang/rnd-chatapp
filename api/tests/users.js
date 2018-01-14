@@ -1,4 +1,4 @@
-module.exports = (app) => {
+const registerUser = (app) => {
   describe('Users API', () => {
     describe('Home', () => {
       it('will get signup text', (done) => {
@@ -106,6 +106,22 @@ module.exports = (app) => {
         });
       });
     });
-    // Lists Users
   });
-}
+};
+
+const listsUsers = (app, expect, should) => {
+  describe('Lists Users', () => {
+    describe('Public Lists Users',() => {
+      it('will get public data lists users as json', (done)=>{
+        app.get('/users/lists').end((err,res)=>{
+          expect(res.status).to.equal(200);
+          expect(res.type).to.equal('application/json');
+          done();
+        });
+      });
+    })
+  });
+};
+
+exports.registerUser = registerUser;
+exports.listsUsers = listsUsers;

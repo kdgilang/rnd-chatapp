@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 let users = mongoose.Schema({
 	name: {
 		type: String,
-		required: true,
+		required: [true, 'Name is required.'],
 		validate: {
 			validator: (v) => {
 				return /\S+/.test(v);
@@ -13,8 +13,14 @@ let users = mongoose.Schema({
 	},
 	email: {
 		type: String,
-		unique: true,
-		required: true,
+        unique: {
+            args: true,
+            message: 'Username must be unique.',
+        },
+		required: {
+			arg: true,
+			msg: 'Email is required.'
+		},
 		validate: {
 			validator: (v) => {
 				return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v);
@@ -25,7 +31,7 @@ let users = mongoose.Schema({
 	password: {
 		type: String,
 		select: false,
-		required: true,
+		required: [true, 'Password is required.'],
 		validate: {
 			validator: (v) => {
 				return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/.test(v);

@@ -11,23 +11,35 @@ exports.add = (req, res) => {
 	req.getValidationResult()
 	.then((result) => {
 		if(result.isEmpty()) {
-			newuser = new users(form)
-			newuser.save((err, user) => {
-				if(err) 
-					res.status(400).json(err)
-				else
-					res.status(201).json(user)
-			})
+			if(req.checkBody(req.body.password).equals(req.body.repassword)) {
+				newuser = new users(form)
+				newuser.save((err, user) => {
+					if(err) 
+						res.status(400).json(err)
+					else
+						res.status(201);
+				})
+			} else {
+				res.status(400).json({msg: 'Password does not match.'})
+			}
 		} else {
 			res.status(400).json(result.array()[0])
 		}
 	})
 }
-exports.lists = (req, res) => {
+exports.listsPrivate = (req, res) => {
 	users.find(function (err, listusers) {
 		if(err)
-			res.send(err)
-
-		res.json(listusers)
+			res.status(400).send(err)
+		else
+			res.status(200).json(listusers)
+	})
+}
+exports.listsPublic = (req, res) => {
+	users.find({}, {_id: 0, email: 0, __v:0}).exec((err, listusers) => {
+		if(err)
+			res.status(400).send(err)
+		else
+			res.status(200).json(listusers)
 	})
 }
