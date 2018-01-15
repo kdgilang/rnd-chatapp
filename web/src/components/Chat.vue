@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div id="chat">
-      <FormLogin/>
       <div class="row">
         <div id="contact" class="col-4">
           <div class="group-contact">
@@ -88,7 +87,6 @@
 </template>
 
 <script>
-import FormLogin from './FormLoginRegister';
 export default {
   name: 'Chat',
   data () {
@@ -98,9 +96,6 @@ export default {
   },
   methods: {
 
-  },
-  components: {
-    FormLogin
   }
 }
 </script>
