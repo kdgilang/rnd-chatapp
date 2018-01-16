@@ -3,7 +3,7 @@
 		<h1 class="text-center title">{{title}}</h1>
 		<span id="icon-chat" class="fa fa-comments-o"></span>
 		<div class="form-login row">
-			<form @submit="submitRegister" :action="urlRegister" class="col-12 col-sm-6" method="post">
+			<form @submit="submitRegister" :action="urlRegister" class="col-12" method="post">
 				<div :class="formGroup('name')">
 					<input ref="name" class="form-control" v-model="formRegister.name" type="text" name="name" placeholder="Name ...">
 					<span v-html="getIcon('name')" class="has-icon"></span>
@@ -24,6 +24,7 @@
 					{{message}}
 				</div>
 				<button class="btn btn-primary">sign up</button>
+				<router-link :to="{name: 'Signin'}" class="btn">Login</router-link>
 			</form>
 		</div>
 		<Loader :class="isSubmit ? 'show' : 'hide'"/>
@@ -41,7 +42,6 @@ export default {
 		return {
 			title: 'Start Chatting',
 			urlRegister: 'http://localhost:3000/users/add',
-			urlLogin: 'http://localhost:3000/auth',
 			formRegister: {
 				name: null,
 				email: null,
@@ -104,41 +104,4 @@ export default {
 </script>
 
 <style scoped lang="sass">
-	// @import '../assets/scss/bootstrap/bootstrap'
-	@import '../assets/scss/variable'
-	@import '../assets/scss/helper'
-	#loader
-		bottom: 0
-		left: 0
-		position: absolute
-		right: 0
-		text-align: center
-		.cube1
-			background-color: $color1
-	.container-login
-		background: $color4
-		bottom: 0
-		position: absolute
-		left: 0
-		right: 0
-		top: 0
-		z-index: 1000
-		.title 
-			color: $color1
-			margin-top: 30px;
-		#icon-chat
-			font-size: 50px
-			margin-bottom: 30px
-	.form-login
-		left: 50%
-		position: absolute
-		top: 50%
-		width: 600px
-		@include transform(translate(-50%, -50%))
-	.form-group
-		position: relative
-	.has-icon
-		position: absolute
-		right: 10px
-		top: 6px
 </style>

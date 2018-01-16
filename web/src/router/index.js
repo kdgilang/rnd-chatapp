@@ -1,33 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Chat from '@/components/Chat'
-import FormSignin from '@/components/FormSignin'
-import FormSignup from '@/components/FormSignup'
+import Home from '@/components/Home'
+import HomeRouter from './home'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: FormSignin
-    },
-    {
-      path: '/chat',
-      name: 'chat',
-      component: Chat,
-
-    },
-    {
-      path: '/signin',
-      name: 'signin',
-      component: FormSignin
-    },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: FormSignup
+      name: 'Home',
+      component: Home,
+      children: HomeRouter,
+      meta: {
+        // requiresAuth: true
+      },
+      // beforeEnter: function (to, from, next) {
+      //   next({path:'signin'})
+      // }
     }
   ]
 })
