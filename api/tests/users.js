@@ -14,7 +14,8 @@ const registerUser = (app) => {
           app.post('/users/add').send({
             'email':'',
             'name':'',
-            'password':''
+            'password':'',
+            'repassword':''
           }).expect(400, done);
         });
       });
@@ -24,7 +25,8 @@ const registerUser = (app) => {
             app.post('/users/add').send({
               'email':'',
               'name':'example name',
-              'password':'Password1'
+              'password':'Password1',
+              'repassword':'Password1'
             }).expect(400, done);
           });
         });
@@ -33,7 +35,8 @@ const registerUser = (app) => {
             app.post('/users/add').send({
               'email':'example@example',
               'name':'example name',
-              'password':'Password1'
+              'password':'Password1',
+              'repassword':'Password1'
             }).expect(400, done);
           });
         });
@@ -42,7 +45,8 @@ const registerUser = (app) => {
             app.post('/users/add').send({
               'email':'example@example.com',
               'name':'example name',
-              'password':'Password1'
+              'password':'Password1',
+              'repassword':'Password1'
             }).expect(201, done);
           });
         });
@@ -51,7 +55,8 @@ const registerUser = (app) => {
             app.post('/users/add').send({
               'email':'example@example.com',
               'name':'example name',
-              'password':'Password1'
+              'password':'Password1',
+              'repassword':'Password1'
             }).expect(400, done);
           });
         });
@@ -62,7 +67,8 @@ const registerUser = (app) => {
             app.post('/users/add').send({
               'email':'example@example.com',
               'name':'',
-              'password':'Password1'
+              'password':'Password1',
+              'repassword':'Password1'
             }).expect(400, done);
           });
         });
@@ -71,7 +77,8 @@ const registerUser = (app) => {
             app.post('/users/add').send({
               'email':'example@example.com',
               'name':'Na',
-              'password':'Password1'
+              'password':'Password1',
+              'repassword':'Password1'
             }).expect(400, done);
           });
         });
@@ -80,7 +87,8 @@ const registerUser = (app) => {
             app.post('/users/add').send({
               'email':'example@example.com',
               'name':'Naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-              'password':'Password1'
+              'password':'Password1',
+              'repassword':'Password1'
             }).expect(400, done);
           });
         });
@@ -91,7 +99,8 @@ const registerUser = (app) => {
             app.post('/users/add').send({
               'email':'example@example.com',
               'name':'example name',
-              'password':''
+              'password':'',
+              'repassword':''
             }).expect(400, done);
           });
         });
@@ -100,6 +109,7 @@ const registerUser = (app) => {
             app.post('/users/add').send({
               'email':'example@example.com',
               'name':'example name',
+              'password':'asdfa123',
               'password':'asdfa123'
             }).expect(400, done);
           });

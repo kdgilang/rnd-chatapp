@@ -4,5 +4,9 @@ module.exports = {
     'name',
     'password',
     'repassword'
+  ],
+  'authUser':[
+    'email',
+    'password'
   ]
 }

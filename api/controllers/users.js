@@ -1,5 +1,6 @@
 'use strict'
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 const vld = require('../validations/users')
 const stz = require('../sanitizer/users')
 const users = mongoose.model('users')
@@ -11,17 +12,25 @@ exports.add = (req, res) => {
 	req.getValidationResult()
 	.then((result) => {
 		if(result.isEmpty()) {
-			if(req.checkBody(req.body.password).equals(req.body.repassword)) {
-				newuser = new users(form)
-				newuser.save((err, user) => {
-					if(err) 
-						res.status(400).json(err)
-					else
-						res.status(201);
+			bcrypt.hash(form.password, 10, (err, hash) => {
+				bcrypt.compare(form.repassword, hash, (err, status) => {
+					if(status) {
+						form.password = hash;
+						newuser = new users(form)
+						newuser.save((err, user) => {
+							if(err) 
+								if(err.code === 11000)
+									res.status(400).json({msg: 'Email has ben registered.', status: false, param:'email'})
+								else 
+									res.status(400).json({msg: 'Something gone wrong.', status: false})
+							else
+								res.status(201).json({msg: 'Successfully Created.', status:true})
+						})
+					} else {
+						res.status(400).json({msg: 'Repassword does not match.', status: false, param:'repassword'})
+					}
 				})
-			} else {
-				res.status(400).json({msg: 'Password does not match.'})
-			}
+			})
 		} else {
 			res.status(400).json(result.array()[0])
 		}
