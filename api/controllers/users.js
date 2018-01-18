@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const vld = require('../validations/users')
 const stz = require('../sanitizer/users')
-const users = mongoose.model('users')
+const users = require('../models/users')
 
 exports.add = (req, res) => {
 	var form = req.body, newuser;
