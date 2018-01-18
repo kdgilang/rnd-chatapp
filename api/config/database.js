@@ -1,11 +1,9 @@
 var database = {
-	dbname: '',
-	dburl: 'mongodb://127.0.0.1:27017/',
-	user: false,
-	password: false,
-	getDatabaseUrl: function(dbname) {
-		let fixdbname = this.dbname || dbname;
-		return this.dburl+fixdbname;
+	dbname: 'test',
+	user: 'root',
+	password: '123123123',
+	getDatabaseUrl: function() {
+		return 'mongodb://'+this.user+':'+this.password+'@easychat-shard-00-00-6z6xo.mongodb.net:27017,easychat-shard-00-01-6z6xo.mongodb.net:27017,easychat-shard-00-02-6z6xo.mongodb.net:27017/'+this.dbname+'?ssl=true&replicaSet=easychat-shard-0&authSource=admin';
 	}
 };
 module.exports = database;

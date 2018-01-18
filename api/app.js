@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const mongoose = require('mongoose');
 const config = require('./config');
-mongoose.connect(config.database.getDatabaseUrl('easychat'), {useMongoClient: true}, function(err) {
+mongoose.connect(config.database.getDatabaseUrl(), {useMongoClient: true}, function(err) {
 	if(err) {
 		console.log(err);
   } else {

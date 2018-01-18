@@ -41,7 +41,7 @@ export default {
 	data () {
 		return {
 			title: 'Start Chatting',
-			urlRegister: 'http://localhost:3000/users/add',
+			urlRegister: 'https://apieasychat.herokuapp.com/users/add',
 			formRegister: {
 				name: null,
 				email: null,
