@@ -5,7 +5,7 @@
   "main": "Gruntfile",
   "scripts": {
     "test": "test",
-    "dev": "grunt watch"
+    "dev": "grunt"
   },
   "author": "gilang",
   "license": "ISC",
