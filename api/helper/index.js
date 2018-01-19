@@ -4,9 +4,7 @@ const nodemailer = require('nodemailer');
 // helper as email service
 exports.sendMail = (option) => {
   var transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    service: 'Gmail',
     auth: cfg.authEmail
   });
   transporter.sendMail(option, function(error, info){
@@ -15,5 +13,6 @@ exports.sendMail = (option) => {
     } else {
       console.log('Email sent: ' + info.response);
     }
+    transporter.close();
   });
 }

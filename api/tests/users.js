@@ -81,7 +81,7 @@ const registerUser = (app) => {
         describe('Well Done', () => {
           it('User Successfully Created.', (done)=>{
             app.post('/users/add').send({
-              'email':'example@example.com',
+              'email':'kadekgilangputra@gmail.com',
               'username':'user_name1',
               'name':'example name',
               'password':'Password1',
