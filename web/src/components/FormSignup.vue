@@ -8,6 +8,10 @@
 					<input ref="name" class="form-control" v-model="formRegister.name" type="text" name="name" placeholder="Name ...">
 					<span v-html="getIcon('name')" class="has-icon"></span>
 				</div>
+				<div :class="formGroup('username')">
+					<input ref="username" class="form-control" v-model="formRegister.username" type="text" name="username" placeholder="User Name ...">
+					<span v-html="getIcon('username')" class="has-icon"></span>
+				</div>
 				<div :class="formGroup('email')">
 					<input ref="email" class="form-control" v-model="formRegister.email" type="text" name="email" placeholder="Email ...">
 					<span v-html="getIcon('email')" class="has-icon"></span>
@@ -41,9 +45,10 @@ export default {
 	data () {
 		return {
 			title: 'Start Chatting',
-			urlRegister: 'https://apieasychat.herokuapp.com/users/add',
+			urlRegister: 'http://localhost:3000/users/add',
 			formRegister: {
 				name: null,
+				username: null,
 				email: null,
 				password: null,
 				repassword: null
@@ -79,8 +84,8 @@ export default {
 				}).catch(function (err) {
 					setTimeout(function () {
 						self.loader = false;
-						if(err.response.data !== undefined) {
-							self.isSubmit = false;
+						self.isSubmit = false;
+						if(err.response !== undefined) {
 							self.isMessage = true;
 							self.message = err.response.data.msg;
 							self.elerror =  err.response.data.param;

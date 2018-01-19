@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const mongoose = require('mongoose');
 const config = require('./config');
+const mdlr = require('./middlewares');
 mongoose.connect(config.database.getDatabaseUrl(), {useMongoClient: true}, function(err) {
 	if(err) {
 		console.log(err);
@@ -34,6 +35,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressValidator());
+app.use(mdlr.cors);
 app.use('/', index);
 app.use('/users', users);
 

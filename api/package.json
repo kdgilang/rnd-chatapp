@@ -14,12 +14,14 @@
     "express": "~4.15.2",
     "jade": "~1.11.0",
     "morgan": "~1.8.1",
+    "nodemailer": "^4.4.1",
     "serve-favicon": "~2.4.2"
   },
   "devDependencies": {
     "bcrypt": "^1.0.3",
     "chai": "^4.1.2",
     "express-validator": "^4.3.0",
+    "jsonwebtoken": "^8.1.0",
     "mocha": "^4.1.0",
     "mochawesome": "^3.0.1",
     "mongoose": "^4.13.6",

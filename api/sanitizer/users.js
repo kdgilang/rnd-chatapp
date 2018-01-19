@@ -1,7 +1,8 @@
 module.exports = {
   'addUser':[
-    'email',
     'name',
+    'username',
+    'email',
     'password',
     'repassword'
   ],

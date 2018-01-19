@@ -11,11 +11,28 @@ let users = mongoose.Schema({
 			message: '{VALUE} is not a valid name, Name should be string.'
 		}
 	},
+	username: {
+		type: String,
+		unique: {
+			args: true,
+			message: 'Username must be unique.'
+		},
+		required: {
+			arg: true,
+			msg: 'Username is required.'
+		},
+		validate: {
+			validator: (v) => {
+				return /^[a-zA-Z0-9.\_]{4,30}$/.test(v);
+			},
+			message: '{VALUE} is not valid, User name only allows string, numeric and underscore.'
+		}
+	},
 	email: {
 		type: String,
         unique: {
             args: true,
-            message: 'Username must be unique.',
+            message: 'Email must be unique.',
         },
 		required: {
 			arg: true,
@@ -30,13 +47,20 @@ let users = mongoose.Schema({
 	},
 	password: {
 		type: String,
-		select: false,
 		required: [true, 'Password is required.'],
 		validate: {
 			validator: (v) => {
 				return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/.test(v);
 			},
 			message: '{VALUE} is not strong enough, Please contain Uppercase, Lowercase, Numeric and 8 character minimum.'
+		}
+	},
+	activation: {
+		key: {
+			type: String
+		},
+		status: {
+			type: Boolean
 		}
 	},
 	// birthdate: {

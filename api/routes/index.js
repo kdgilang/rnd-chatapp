@@ -1,9 +1,6 @@
 const express = require('express');
-const middleware = require('../middlewares');
-const ctr = require('../controllers');
+const mdlr = require('../middlewares');
 const router = express.Router();
-
-router.use(middleware);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -11,5 +8,6 @@ router.get('/', function(req, res, next) {
 });
 
 /* AUTH USER */
-router.post('/auth/', ctr.auth);
+router.post('/auth/', mdlr.auth, mdlr.genereteToken);
+
 module.exports = router;

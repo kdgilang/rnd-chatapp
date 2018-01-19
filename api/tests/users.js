@@ -13,52 +13,11 @@ const registerUser = (app) => {
         it('will get error because query was empty.', (done)=>{
           app.post('/users/add').send({
             'email':'',
+            'username':'',
             'name':'',
             'password':'',
             'repassword':''
           }).expect(400, done);
-        });
-      });
-      describe('Email', () => {
-        describe('Empty Email', () => {
-          it('will get error because email was empty.', (done)=>{
-            app.post('/users/add').send({
-              'email':'',
-              'name':'example name',
-              'password':'Password1',
-              'repassword':'Password1'
-            }).expect(400, done);
-          });
-        });
-        describe('Invalid Email, Wrong Email Address', () => {
-          it('will get error because email was invalid.', (done)=>{
-            app.post('/users/add').send({
-              'email':'example@example',
-              'name':'example name',
-              'password':'Password1',
-              'repassword':'Password1'
-            }).expect(400, done);
-          });
-        });
-        describe('Well Done', () => {
-          it('User Successfully Created.', (done)=>{
-            app.post('/users/add').send({
-              'email':'example@example.com',
-              'name':'example name',
-              'password':'Password1',
-              'repassword':'Password1'
-            }).expect(201, done);
-          });
-        });
-        describe('Duplicated Email', () => {
-          it('will get error because email was duplicated.', (done)=>{
-            app.post('/users/add').send({
-              'email':'example@example.com',
-              'name':'example name',
-              'password':'Password1',
-              'repassword':'Password1'
-            }).expect(400, done);
-          });
         });
       });
       describe('Name', () => {
@@ -66,6 +25,7 @@ const registerUser = (app) => {
           it('will get error because name was empty.', (done)=>{
             app.post('/users/add').send({
               'email':'example@example.com',
+              'username':'user_name',
               'name':'',
               'password':'Password1',
               'repassword':'Password1'
@@ -76,6 +36,7 @@ const registerUser = (app) => {
           it('will get error because name was invalid, Should be more then 3 character.', (done)=>{
             app.post('/users/add').send({
               'email':'example@example.com',
+              'username':'user_name',
               'name':'Na',
               'password':'Password1',
               'repassword':'Password1'
@@ -86,7 +47,100 @@ const registerUser = (app) => {
           it('will get error because name was invalid, Should be less then 31 character.', (done)=>{
             app.post('/users/add').send({
               'email':'example@example.com',
+              'username':'user_name',
               'name':'Naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+              'password':'Password1',
+              'repassword':'Password1'
+            }).expect(400, done);
+          });
+        });
+      });
+      describe('Email', () => {
+        describe('Empty Email', () => {
+          it('will get error because email was empty.', (done)=>{
+            app.post('/users/add').send({
+              'email':'',
+              'username':'user_name',
+              'name':'example name',
+              'password':'Password1',
+              'repassword':'Password1'
+            }).expect(400, done);
+          });
+        });
+        describe('Invalid Email, Wrong Email Address', () => {
+          it('will get error because email was invalid.', (done)=>{
+            app.post('/users/add').send({
+              'email':'example@example',
+              'username':'user_name',
+              'name':'example name',
+              'password':'Password1',
+              'repassword':'Password1'
+            }).expect(400, done);
+          });
+        });
+        describe('Well Done', () => {
+          it('User Successfully Created.', (done)=>{
+            app.post('/users/add').send({
+              'email':'example@example.com',
+              'username':'user_name1',
+              'name':'example name',
+              'password':'Password1',
+              'repassword':'Password1'
+            }).expect(201, done);
+          });
+        });
+        describe('Duplicated Email', () => {
+          it('will get error because email was duplicated.', (done)=>{
+            app.post('/users/add').send({
+              'email':'example@example.com',
+              'username':'user_name2',
+              'name':'example name',
+              'password':'Password1',
+              'repassword':'Password1'
+            }).expect(400, done);
+          });
+        });
+      });
+      describe('User Name', () => {
+        describe('Empty User Name', () => {
+          it('will get error because user name was empty.', (done)=>{
+            app.post('/users/add').send({
+              'name':'example name',
+              'username': '',
+              'email':'example1@example.com',
+              'password':'Password1',
+              'repassword':'Password1'
+            }).expect(400, done);
+          });
+        });
+        describe('Invalid User Name, Wrong User Name', () => {
+          it('will get error because user name only allows numeric, string, underscore, minimum 4 and maximum 30 character.', (done)=>{
+            app.post('/users/add').send({
+              'email':'example1@example.com',
+              'username': 'df--',
+              'name':'example name',
+              'password':'Password1',
+              'repassword':'Password1'
+            }).expect(400, done);
+          });
+        });
+        describe('Well Done', () => {
+          it('User Successfully Created.', (done)=>{
+            app.post('/users/add').send({
+              'email':'example1@example.com',
+              'username':'user_name',
+              'name':'example name',
+              'password':'Password1',
+              'repassword':'Password1'
+            }).expect(201, done);
+          });
+        });
+        describe('Duplicated User Name', () => {
+          it('will get error because email was duplicated.', (done)=>{
+            app.post('/users/add').send({
+              'email':'example1@example.com',
+              'username':'user_name',
+              'name':'example name',
               'password':'Password1',
               'repassword':'Password1'
             }).expect(400, done);
@@ -98,6 +152,7 @@ const registerUser = (app) => {
           it('will get error because password was empty.', (done)=>{
             app.post('/users/add').send({
               'email':'example@example.com',
+              'username':'user_name',
               'name':'example name',
               'password':'',
               'repassword':''
@@ -108,6 +163,7 @@ const registerUser = (app) => {
           it('will get error because password has wrong format. Uppercase, Lowercase, Numeric.', (done)=>{
             app.post('/users/add').send({
               'email':'example@example.com',
+              'username':'user_name',
               'name':'example name',
               'password':'asdfa123',
               'password':'asdfa123'

@@ -63,9 +63,9 @@ export default {
 				}, 1000);
 			}).catch(function (err) {
 				setTimeout(function () {
+					self.isSubmit = false;
 					self.loader = false;
-					if(err.response.data !== undefined) {
-						self.isSubmit = false;
+					if(err.response !== undefined) {
 						self.isMessage = true;
 						self.message = err.response.data.msg;
 						self.elerror =  err.response.data.param;

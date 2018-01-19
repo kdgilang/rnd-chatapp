@@ -1,4 +1,9 @@
-module.exports = (req, res, next) => {
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const vld = require('../validations/users')
+const stz = require('../sanitizer/users')
+const users = require('../models/users');
+exports.cors = (req, res, next) => {
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -12,4 +17,47 @@ module.exports = (req, res, next) => {
     // to the API (e.g. in case you use sessions)
     // res.setHeader('Access-Control-Allow-Credentials', true);
     next();
+}
+exports.verify = (req, res, next) => {
+    var auth = req.headers['authorization'];
+    if(typeof auth === undefined) {
+        res.sendStatus(403);
+    } else {
+        let bearer = auth.split('.');
+        req.token = bearer;
+        next();
+    }
+}
+exports.auth = (req, res, next) => {
+    let data = req.body;
+    stz.authUser.map(req.sanitize);
+    req.checkBody(vld.authUser);
+    req.getValidationResult()
+    .then((result) => {
+        if(result.isEmpty()) {
+            users.findOne({email: data.email},{email:1,password:1}).exec()
+            .then((m) => {
+                if(m !== null) {
+                    if(m.activation.status) {
+                        bcrypt.compare(data.password, m.password, (err, status) => {
+                            if(status) {
+                                c
+                                next();
+                            } else {
+                                res.status(400).json({msg: 'Invalid Cridentials.', param: 'email', status: false});
+                            }
+                        });
+                    } else {
+                        res.status(403).json({msg: 'Please verify your email adress.', param: 'email', status: false});
+                    }
+                }
+            });
+        } else {
+            res.status(400).json(result.array()[0]);
+        }
+    });
+}
+exports.genereteToken = (req, res) => {
+    console.log('user');
+    jwt.sign({});
 }

@@ -1,5 +1,5 @@
 var database = {
-	dbname: 'test',
+	dbname: 'easychat',
 	user: 'root',
 	password: '123123123',
 	getDatabaseUrl: function() {
