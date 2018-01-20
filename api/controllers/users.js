@@ -44,7 +44,10 @@ exports.add = (req, res) => {
 							if(err)
 								console.log(err);
 							else {
-								hp.sendMail({from:'kadekgilangputra@gmail.com', to:'kadekgilangputra@gmail.com', subject:'Rescue', text: 'test'});
+								let actkey = val.email + Date.now();
+								console.log(String(actkey));
+								actkey = bcrypt.hashSync(String(actkey), 10); 
+								hp.sendMail({from:'Easy Chat', to:'kadekgilangputra@gmail.com', subject:'Activation Account', text: actkey});
 								res.status(201).json({msg: 'Successfully Created.', status:true});
 							}
 						});
