@@ -1,19 +1,19 @@
 'use strict'
-const bcrypt = require('bcrypt')
 const vld = require('../validations/users')
 const stz = require('../sanitizer/users')
 const users = require('../models/users')
 const hp = require('../helper')
 
 exports.add = (req, res) => {
-	var form = req.body, newuser;
+	var form = req.body;
 	stz.addUser.map(req.sanitize);
 	req.checkBody(vld.addUser);
 	req.getValidationResult()
 	.then((result) => {
 		if(result.isEmpty()) {
-			let hash = bcrypt.hashSync(form.password, 10);
-			let status = bcrypt.compareSync(form.repassword, hash);
+			let user = new users(form);
+			let hash = user.getPassword(form.password);
+			let status = user.getCompare(form.repassword, hash);
 			if(status) {
 				var sts = {};
 				new Promise((resolve, reject) => {
@@ -39,17 +39,14 @@ exports.add = (req, res) => {
 				}).then((val) => {
 					if(val.username && val.email) {
 						form.password = hash;
-						newuser = new users(form);
-						newuser.save((err, user) => {
+						form.activation = {
+							key: user.getActivationKey(form)
+						}
+						user.save((err, user) => {
 							if(err)
 								console.log(err);
-							else {
-								let actkey = val.email + Date.now();
-								console.log(String(actkey));
-								actkey = bcrypt.hashSync(String(actkey), 10); 
-								hp.sendMail({from:'Easy Chat', to:'kadekgilangputra@gmail.com', subject:'Activation Account', text: actkey});
+							else 
 								res.status(201).json({msg: 'Successfully Created.', status:true});
-							}
 						});
 					} else {
 						if(!val.username)

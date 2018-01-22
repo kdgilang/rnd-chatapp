@@ -92,7 +92,7 @@ const registerUser = (app) => {
         describe('Duplicated Email', () => {
           it('will get error because email was duplicated.', (done)=>{
             app.post('/users/add').send({
-              'email':'example@example.com',
+              'email':'kadekgilangputra@gmail.com',
               'username':'user_name2',
               'name':'example name',
               'password':'Password1',
@@ -138,7 +138,7 @@ const registerUser = (app) => {
         describe('Duplicated User Name', () => {
           it('will get error because email was duplicated.', (done)=>{
             app.post('/users/add').send({
-              'email':'example1@example.com',
+              'email':'example2@example.com',
               'username':'user_name',
               'name':'example name',
               'password':'Password1',

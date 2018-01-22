@@ -19,3 +19,12 @@ exports.sendMail = (option) => {
     transporter.close();
   });
 }
+exports.base64 = {
+  encode: (str) => {
+    return new Buffer(str, 'binary').toString('base64');
+  }, 
+  decode: (bs64) => {
+    return new Buffer(bs64, 'base64').toString('binary');
+  }
+}
+exports.activationHtml = require('./content-activation');

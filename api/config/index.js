@@ -1,6 +1,6 @@
 var config = {
+	AppName: 'Easy Chat',
 	database: require('./database'),
-	SMTP: "SMTP",
 	authEmail: {
       user: 'pemogan.anemone@gmail.com',
       pass: 'Anemone2018'

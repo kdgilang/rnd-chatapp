@@ -1,4 +1,7 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const cfg = require('../config');
+const hp = require('../helper');
 
 let users = mongoose.Schema({
 	name: {
@@ -57,10 +60,13 @@ let users = mongoose.Schema({
 	},
 	activation: {
 		key: {
-			type: String
+			type: String,
+			required: true,
+			default: false
 		},
 		status: {
-			type: Boolean
+			type: Boolean,
+			default: false
 		}
 	},
 	// birthdate: {
@@ -81,6 +87,21 @@ let users = mongoose.Schema({
 		type: Date,
 		default: Date.now
 	}
-})
-
-module.exports = mongoose.model('users', users)
+});
+users.methods.getPassword = (pass) => {
+	return bcrypt.hashSync(pass, bcrypt.genSaltSync(10));
+}
+users.methods.getCompare = (repass, hash) => {
+	return bcrypt.compareSync(repass, hash);
+}
+users.methods.getActivationKey = (user) => {
+	let actkey = user.email +"-"+Date.now();
+	let bskey = hp.base64.encode(actkey);
+	actkey = bcrypt.hashSync(String(actkey), bcrypt.genSaltSync(10));
+	// this.update({ _id: id }, { $set: { }});
+	user.url = 'http://localhost:8080/activation/'+actkey;
+	let html = hp.activationHtml(user);
+	hp.sendMail({from:cfg.AppName, to: user.email, subject:'Activation Account', html: html});
+	return actkey;
+}
+module.exports = mongoose.model('users', users);
