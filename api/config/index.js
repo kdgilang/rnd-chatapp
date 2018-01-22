@@ -2,8 +2,8 @@ var config = {
 	AppName: 'Easy Chat',
 	database: require('./database'),
 	authEmail: {
-      user: 'pemogan.anemone@gmail.com',
-      pass: 'Anemone2018'
+		user: 'kadekgilangputra@gmail.com',
+		pass: 'pdkqetfmviopqgjq'
     }
 };
 module.exports = config;

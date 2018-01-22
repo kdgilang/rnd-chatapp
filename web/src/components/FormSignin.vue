@@ -1,8 +1,8 @@
 <template>
-	<div id="FormSignin" class="container-login">
+	<div id="FormSignin" class="c-form">
 		<h1 class="text-center title">{{title}}</h1>
 		<span id="icon-chat" class="fa fa-comments-o"></span>
-		<div class="form-login row">
+		<div class="o-form row">
 			<form @submit="submitLogin" action="urlLogin" class="form col-12">
 				<div :class="formGroup('email')">
 					<input ref="email" class="form-control" v-model="formLogin.email" type="text" name="email" placeholder="Email ...">
@@ -12,10 +12,13 @@
 					<input ref="password" class="form-control" v-model="formLogin.password" type="password" name="password" placeholder="Password">
 					<span v-html="getIcon('password')" class="has-icon"></span>
 				</div>
-				<button class="btn btn-primary">Sign in</button>
-				<router-link :to="{name: 'Signup'}" class="btn">register</router-link>
+				<div class="form-group">
+					<button class="btn btn-primary">Sign in</button>
+					<router-link :to="{name: 'Signup'}" class="btn">register</router-link>
+				</div>
 				<div v-if="isMessage" :class="isMessage ? status ? 'alert alert-success': 'alert alert-danger' : 'alert alert-primary' + '\tcol-xs-12'">
 					{{message}}
+					<router-link v-if="isVerify === false" :to="{name: 'Sendactivation'}" class="btn"><i><small>don't get activation yet?</small></i></router-link>
 				</div>
 			</form>
 		</div>
@@ -44,7 +47,8 @@ export default {
 			isMessage: false,
 			message: null,
 			elerror: null,
-			loader: false
+			loader: false,
+			isVerify: true
 		}
 	},
 	methods: {
@@ -70,6 +74,7 @@ export default {
 						self.message = err.response.data.msg;
 						self.elerror =  err.response.data.param;
 						self.status = err.response.data.status;
+						self.isVerify = err.response.data.verify;
 						self.$refs[self.elerror].focus();
 					}
 				}, 1000);

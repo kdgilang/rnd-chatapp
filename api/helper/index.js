@@ -3,14 +3,12 @@ const nodemailer = require('nodemailer');
 
 // helper as email service
 exports.sendMail = (option) => {
+  option.from = cfg.AppName;
   var transporter = nodemailer.createTransport({
     service: "Gmail",
-    auth: {
-      user: 'kadekgilangputra@gmail.com',
-      pass: 'pdkqetfmviopqgjq'
-    }
+    auth: cfg.authEmail
   });
-  transporter.sendMail(option, function(error, info){
+  transporter.sendMail(option, function(error, info) {
     if (error) {
       console.log(error);
     } else {

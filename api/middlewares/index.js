@@ -37,19 +37,16 @@ exports.auth = (req, res, next) => {
         if(result.isEmpty()) {
             users.findOne({email: data.email},{email:1,password:1}).exec()
             .then((m) => {
-                if(m !== null) {
-                    if(m.activation.status) {
-                        bcrypt.compare(data.password, m.password, (err, status) => {
-                            if(status) {
-                                c
-                                next();
-                            } else {
-                                res.status(400).json({msg: 'Invalid Cridentials.', param: 'email', status: false});
-                            }
-                        });
-                    } else {
-                        res.status(403).json({msg: 'Please verify your email adress.', param: 'email', status: false});
-                    }
+                let status = bcrypt.compareSync(data.password, m.password);
+                console.log(data.password);
+                console.log(m.password);
+                if(m !== null && status) {
+                    if(m.activation.status)
+                        next();
+                    else
+                        res.status(403).json({msg: 'Please verify your email adress.', param: 'email', status: false, verify: false});
+                } else {
+                    res.status(400).json({msg: 'Invalid Cridentials.', param: 'email', status: false});
                 }
             });
         } else {

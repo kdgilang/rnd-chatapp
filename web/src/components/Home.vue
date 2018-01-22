@@ -27,7 +27,7 @@ export default {
 		text-align: center
 		.cube1
 			background-color: $color1
-	.container-login
+	.c-form
 		background: $color4
 		bottom: 0
 		position: absolute
@@ -41,7 +41,7 @@ export default {
 		#icon-chat
 			font-size: 50px
 			margin-bottom: 30px
-	.form-login
+	.o-form
 		left: 50%
 		position: absolute
 		top: 50%

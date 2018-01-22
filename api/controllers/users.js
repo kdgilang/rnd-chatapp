@@ -38,8 +38,8 @@ exports.add = (req, res) => {
 					});
 				}).then((val) => {
 					if(val.username && val.email) {
-						form.password = hash;
-						form.activation = {
+						user.password = hash;
+						user.activation = {
 							key: user.getActivationKey(form)
 						}
 						user.save((err, user) => {

@@ -1,8 +1,8 @@
 <template>
-	<div id="FormLSignup" class="container-login">
+	<div id="FormLSignup" class="c-form">
 		<h1 class="text-center title">{{title}}</h1>
 		<span id="icon-chat" class="fa fa-comments-o"></span>
-		<div class="form-login row">
+		<div class="o-form row">
 			<form @submit="submitRegister" :action="urlRegister" class="col-12" method="post">
 				<div :class="formGroup('name')">
 					<input ref="name" class="form-control" v-model="formRegister.name" type="text" name="name" placeholder="Name ...">

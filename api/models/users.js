@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const cfg = require('../config');
 const hp = require('../helper');
 
 let users = mongoose.Schema({
@@ -62,7 +61,8 @@ let users = mongoose.Schema({
 		key: {
 			type: String,
 			required: true,
-			default: false
+			default: false,
+			select: false
 		},
 		status: {
 			type: Boolean,
@@ -99,9 +99,12 @@ users.methods.getActivationKey = (user) => {
 	let bskey = hp.base64.encode(actkey);
 	actkey = bcrypt.hashSync(String(actkey), bcrypt.genSaltSync(10));
 	// this.update({ _id: id }, { $set: { }});
-	user.url = 'http://localhost:8080/activation/'+actkey;
+	user.url = getUrlKey(actkey);
 	let html = hp.activationHtml(user);
-	hp.sendMail({from:cfg.AppName, to: user.email, subject:'Activation Account', html: html});
+	hp.sendMail({to: user.email, subject:'Activation Account', html: html});
 	return actkey;
+}
+users.methods.getUrlKey = (key) => {
+	return 'http://localhost:8080/activation/'+key;
 }
 module.exports = mongoose.model('users', users);
