@@ -22,6 +22,14 @@ const HomeRouter = [
       path: 'activation/:data',
       name: 'activation',
       component: ContentActivation
+    },
+    {
+      path: 'signout',
+      name: 'Signout',
+      component: FormSignin,
+      beforeEnter: (to, from, next) => {
+        
+      }
     }
 ];
 export default HomeRouter;

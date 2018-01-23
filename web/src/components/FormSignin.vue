@@ -5,16 +5,16 @@
 		<div class="o-form row">
 			<form @submit="submitLogin" action="urlLogin" class="form col-12">
 				<div :class="formGroup('email')">
-					<input ref="email" class="form-control" v-model="formLogin.email" type="text" name="email" placeholder="Email ...">
+					<input ref="email" class="form-control" v-model="form.email" type="text" name="email" placeholder="Email ...">
 					<span v-html="getIcon('email')" class="has-icon"></span>
 				</div>
 				<div :class="formGroup('password')">
-					<input ref="password" class="form-control" v-model="formLogin.password" type="password" name="password" placeholder="Password">
+					<input ref="password" class="form-control" v-model="form.password" type="password" name="password" placeholder="Password">
 					<span v-html="getIcon('password')" class="has-icon"></span>
 				</div>
 				<div class="form-group">
 					<button class="btn btn-primary">Sign in</button>
-					<router-link :to="{name: 'Signup'}" class="btn">register</router-link>
+					<router-link :to="{name: 'Signup'}" class="btn">sign up</router-link>
 				</div>
 				<div v-if="isMessage" :class="isMessage ? status ? 'alert alert-success': 'alert alert-danger' : 'alert alert-primary' + '\tcol-xs-12'">
 					{{message}}
@@ -38,7 +38,7 @@ export default {
 		return {
 			title: 'Start Chatting',
 			urlLogin: 'http://localhost:3000/auth',
-			formLogin: {
+			form: {
 				email: null,
 				password: null
 			},
@@ -57,13 +57,17 @@ export default {
 			var self = this;
 			self.isSubmit = true;
 			self.loader = true;
-			axios.post(this.urlLogin, this.formLogin).then(function (res) {
+			axios.post(this.urlLogin, this.form).then(function (res) {
 				setTimeout(function () {
 					self.isSubmit = false;
 					self.isMessage = true;
 					self.loader = false;
 					self.message = res.data.msg;
 					self.status = res.data.status;
+					if(res.data.token !== undefined) {
+						localStorage.setItem('token', res.data.token);
+						this.$store.token = res.data.token;
+					}
 				}, 1000);
 			}).catch(function (err) {
 				setTimeout(function () {

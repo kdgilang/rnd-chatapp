@@ -5,30 +5,30 @@
 		<div class="o-form row">
 			<form @submit="submitRegister" :action="urlRegister" class="col-12" method="post">
 				<div :class="formGroup('name')">
-					<input ref="name" class="form-control" v-model="formRegister.name" type="text" name="name" placeholder="Name ...">
+					<input ref="name" class="form-control" v-model="form.name" type="text" name="name" placeholder="Name ...">
 					<span v-html="getIcon('name')" class="has-icon"></span>
 				</div>
 				<div :class="formGroup('username')">
-					<input ref="username" class="form-control" v-model="formRegister.username" type="text" name="username" placeholder="User Name ...">
+					<input ref="username" class="form-control" v-model="form.username" type="text" name="username" placeholder="User Name ...">
 					<span v-html="getIcon('username')" class="has-icon"></span>
 				</div>
 				<div :class="formGroup('email')">
-					<input ref="email" class="form-control" v-model="formRegister.email" type="text" name="email" placeholder="Email ...">
+					<input ref="email" class="form-control" v-model="form.email" type="text" name="email" placeholder="Email ...">
 					<span v-html="getIcon('email')" class="has-icon"></span>
 				</div>
 				<div :class="formGroup('password')">
-					<input ref="password" class="form-control" v-model="formRegister.password" type="password" name="password" placeholder="Password">
+					<input ref="password" class="form-control" v-model="form.password" type="password" name="password" placeholder="Password">
 					<span v-html="getIcon('password')" class="has-icon"></span>
 				</div>
 				<div :class="formGroup('repassword')">
-					<input ref="repassword" class="form-control" v-model="formRegister.repassword" type="password" name="repassword" placeholder="Retype Password">
+					<input ref="repassword" class="form-control" v-model="form.repassword" type="password" name="repassword" placeholder="Retype Password">
 					<span v-html="getIcon('repassword')" class="has-icon"></span>
 				</div>
 				<div v-if="isMessage" :class="isMessage ? status ? 'alert alert-success': 'alert alert-danger' : 'alert alert-primary' + '\tcol-xs-12'">
 					{{message}}
 				</div>
 				<button class="btn btn-primary">sign up</button>
-				<router-link :to="{name: 'Signin'}" class="btn">Login</router-link>
+				<router-link :to="{name: 'Signin'}" class="btn">sign in</router-link>
 			</form>
 		</div>
 		<Loader :class="isSubmit ? 'show' : 'hide'"/>
@@ -46,7 +46,7 @@ export default {
 		return {
 			title: 'Start Chatting',
 			urlRegister: 'http://localhost:3000/users/add',
-			formRegister: {
+			form: {
 				name: null,
 				username: null,
 				email: null,
@@ -63,7 +63,7 @@ export default {
 	},
 	computed: {
 		dataForm() {
-			return {...this.formRegister,...this.formLogin}
+			return {...this.form,...this.formLogin}
 		}
 	},
 	methods: {
@@ -73,7 +73,7 @@ export default {
 			if(!self.isSubmit) {
 				self.isSubmit = true;
 				self.loader = true;
-				axios.post(this.urlRegister, this.formRegister).then(function (res) {
+				axios.post(this.urlRegister, this.form).then(function (res) {
 					setTimeout(function () {
 						self.isSubmit = false;
 						self.isMessage = true;

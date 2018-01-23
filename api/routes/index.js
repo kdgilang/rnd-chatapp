@@ -8,14 +8,11 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Easy Api' });
 });
 
-/* GET home page. */
-router.get('/activation/:data', function(req, res, next) {
-  let data = req.params;
-  console.log(data);
-});
+/* verify email. */
+router.post('/activation/', ctr.verifyEmail);
 
 /* Send Activation. */
-router.post('/sendactivation', ctr.sendActivation);
+router.post('/sendactivation/', ctr.sendActivation);
 
 /* AUTH USER */
 router.post('/auth/', mdlr.auth, mdlr.genereteToken);

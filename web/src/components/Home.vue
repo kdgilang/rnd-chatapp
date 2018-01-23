@@ -1,16 +1,25 @@
 <template>
-	<div class="container">
-		<div id="chat">
-			<div class="row">
-				<router-view></router-view>
-			</div>
-		</div>
+	<div id="chat">
+		<router-view></router-view>
+		<chat v-show="token !== null"/>
+		<router-link :to="{name: signout}" class="signout" title="signout"><span class="fa fa-sign-out"></span></router-link>
 	</div>
 </template>
 
 <script>
+import chat from './Chat';
 export default {
 	name: 'Home',
+	data() {
+		return {
+			token: this.$store.state.token
+		}
+	},
+	components: {
+		chat
+	},
+	computed: {
+	}
 	// beforeRouteEnter: (to, from, next) => {
 	// 	next('signin');
 	// }
@@ -19,6 +28,12 @@ export default {
 <style lang="sass">
 	@import '../assets/scss/variable'
 	@import '../assets/scss/helper'
+	.signout
+		bottom: 0
+		color: $color4
+		font-size: 20px
+		left: 5px
+		position: absolute
 	#loader
 		bottom: 0
 		left: 0

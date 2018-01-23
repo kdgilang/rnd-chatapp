@@ -91,17 +91,18 @@ let users = mongoose.Schema({
 users.methods.getPassword = (pass) => {
 	return bcrypt.hashSync(pass, bcrypt.genSaltSync(10));
 }
-users.methods.getCompare = (repass, hash) => {
-	return bcrypt.compareSync(repass, hash);
+users.methods.getCompare = (re, hash) => {
+	return bcrypt.compareSync(re, hash);
+}
+users.methods.getKey = (user) => {
+	let key = user.email+" "+user.username+" "+20;
+	return hp.base64.encode(key);
 }
 users.methods.getActivationKey = (user) => {
-	let actkey = user.email +"-"+Date.now();
-	let bskey = hp.base64.encode(actkey);
-	actkey = bcrypt.hashSync(String(actkey), bcrypt.genSaltSync(10));
-	// this.update({ _id: id }, { $set: { }});
-	user.url = getUrlKey(actkey);
-	let html = hp.activationHtml(user);
-	hp.sendMail({to: user.email, subject:'Activation Account', html: html});
+	let key = users.methods.getKey(user);
+	user.url = users.methods.getUrlKey(key);
+	actkey = bcrypt.hashSync(String(key), bcrypt.genSaltSync(10));
+	hp.sendMail({to: user.email, subject:'Activation Account', html: hp.activationHtml(user)});
 	return actkey;
 }
 users.methods.getUrlKey = (key) => {

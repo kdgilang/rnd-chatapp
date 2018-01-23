@@ -1,6 +1,10 @@
 <template>
 	<div id="Activation" class="c-form">
 		<div class="o-form row">
+			<div v-if="isMessage" :class="isMessage ? status ? 'alert alert-success col-12': 'alert alert-danger col-12' : 'alert alert-primary col-12'">
+				{{message}}
+				<router-link v-if="status" :to="{name: 'Signin'}" class="btn">sign in</router-link>
+			</div>
 		</div>
 		<Loader :class="isSubmit ? 'show' : 'hide'"/>
 	</div>
@@ -17,24 +21,19 @@ export default {
 	data () {
 		return {
 			title: 'Start Chatting',
-			urlaction: 'http://localhost:3000/activation',
-			form: {
-				data: this.$route.params.data,
-			},
+			urlAction: 'http://localhost:3000/activation',
+			key: this.$route.params,
 			status: false,
 			isSubmit: false,
 			isMessage: false,
-			message: null,
-			elerror: null,
-			loader: false
+			message: null
 		}
 	},
 	methods: {
 		submitActivation() {
 			var self = this;
 			self.isSubmit = true;
-			self.loader = true;
-			axios.post(this.urlAction, this.form).then(function (res) {
+			axios.post(this.urlAction, this.key).then(function (res) {
 				setTimeout(function () {
 					self.isSubmit = false;
 					self.isMessage = true;
@@ -45,13 +44,10 @@ export default {
 			}).catch(function (err) {
 				setTimeout(function () {
 					self.isSubmit = false;
-					self.loader = false;
 					if(err.response !== undefined) {
 						self.isMessage = true;
 						self.message = err.response.data.msg;
-						self.elerror =  err.response.data.param;
 						self.status = err.response.data.status;
-						self.$refs[self.elerror].focus();
 					}
 				}, 1000);
 			});

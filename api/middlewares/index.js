@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const vld = require('../validations/users')
-const stz = require('../sanitizer/users')
+const vld = require('../validations/users');
+const stz = require('../sanitizer/users');
 const users = require('../models/users');
+const cfg = require('../config');
 exports.cors = (req, res, next) => {
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -35,15 +36,17 @@ exports.auth = (req, res, next) => {
     req.getValidationResult()
     .then((result) => {
         if(result.isEmpty()) {
-            users.findOne({email: data.email},{email:1,password:1}).exec()
+            users.findOne({email: data.email},{_id:1,email:1,password:1,'activation.status': '1'}).exec()
             .then((m) => {
-                let status = bcrypt.compareSync(data.password, m.password);
-                console.log(data.password);
-                console.log(m.password);
+                let status = false;
+                if(m !== null) 
+                    status = bcrypt.compareSync(data.password, m.password);
+
                 if(m !== null && status) {
-                    if(m.activation.status)
+                    if(m.activation.status) {
+                        res.user = {id: m._id, email: m.email};
                         next();
-                    else
+                    } else
                         res.status(403).json({msg: 'Please verify your email adress.', param: 'email', status: false, verify: false});
                 } else {
                     res.status(400).json({msg: 'Invalid Cridentials.', param: 'email', status: false});
@@ -55,6 +58,7 @@ exports.auth = (req, res, next) => {
     });
 }
 exports.genereteToken = (req, res) => {
-    console.log('user');
-    jwt.sign({});
+    var user = res.user;
+    let token = jwt.sign(user, cfg.JWTKEY);
+    res.status(200).json({status: true, msg: 'successfull signin', token: token});
 }
