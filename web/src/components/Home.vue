@@ -1,8 +1,6 @@
 <template>
 	<div id="chat">
 		<router-view></router-view>
-		<chat v-show="token !== null"/>
-		<router-link :to="{name: signout}" class="signout" title="signout"><span class="fa fa-sign-out"></span></router-link>
 	</div>
 </template>
 
@@ -14,15 +12,7 @@ export default {
 		return {
 			token: this.$store.state.token
 		}
-	},
-	components: {
-		chat
-	},
-	computed: {
 	}
-	// beforeRouteEnter: (to, from, next) => {
-	// 	next('signin');
-	// }
 }
 </script>
 <style lang="sass">

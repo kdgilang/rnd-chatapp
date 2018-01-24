@@ -31,6 +31,7 @@ const axios = require('axios');
 import Loader from './Loader';
 export default {
 	name: 'FormSignin',
+	props: ['signout'],
 	components: {
 		Loader
 	},
@@ -52,6 +53,9 @@ export default {
 		}
 	},
 	methods: {
+		setToken(args) {
+			this.$store.dispatch('actToken', args);
+		},
 		submitLogin(e) {
 			e.preventDefault();
 			var self = this;
@@ -64,10 +68,8 @@ export default {
 					self.loader = false;
 					self.message = res.data.msg;
 					self.status = res.data.status;
-					if(res.data.token !== undefined) {
-						localStorage.setItem('token', res.data.token);
-						this.$store.token = res.data.token;
-					}
+					let args = {token:res.data.token, act:true};
+					self.setToken(args);
 				}, 1000);
 			}).catch(function (err) {
 				setTimeout(function () {
