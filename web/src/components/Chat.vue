@@ -77,7 +77,7 @@
               </div>
             </div>
         </div>
-      </div>     
+      </div>    
     </div>
     <router-link :to="{name: 'Signin', query:{signout: true}}" class="signout" title="signout"><span class="fa fa-sign-out"></span></router-link>
   </div>

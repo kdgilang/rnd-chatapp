@@ -40,7 +40,6 @@ const HomeRouter = [
       requiresAuth: true
     },
     beforeEnter: (to, from, next) => {
-      console.log(store.getters.token);
       if(store.getters.isToken)
         next()
       else 
