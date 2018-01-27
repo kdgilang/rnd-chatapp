@@ -90,6 +90,14 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  created: function () {
+    this.$store.dispatch('postApi', {
+      url: this.$store.getters.getApiUri('users/lists'),
+      success: function (res) {
+        console.log(res.data);
+      }
+    })
   }
 }
 </script>

@@ -8,10 +8,10 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET users listing. */
-router.get('/lists/', mdlr.verify, userController.listsPublic);
+router.get('/lists/', mdlr.verifyToken, userController.listsPublic);
 
 /* POST users listing secure. */
-router.post('/lists/', mdlr.verify, userController.listsPrivate);
+router.post('/lists/', mdlr.verifyToken, userController.listsPrivate);
 
 /* Add user. */
 router.post('/add/', userController.add);

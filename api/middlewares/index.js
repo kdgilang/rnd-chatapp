@@ -12,21 +12,28 @@ exports.cors = (req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, DELETE');
 
     // Request headers you wish to allow
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
     // res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 }
-exports.verify = (req, res, next) => {
-    var auth = req.headers['authorization'];
+exports.verifyToken = (req, res, next) => {
+    var token = req.headers['authorization'];
+    console.log();
     if(typeof auth === undefined) {
         res.sendStatus(403);
     } else {
-        let bearer = auth.split('.');
-        req.token = bearer;
-        next();
+        let bearer = token.substring(7);
+        jwt.verify(bearer, cfg.JWTKEY, function(err, user) {
+            if (err) {
+                res.status(403).json(err);
+            } else {
+                req.user = user;
+                next();
+            }
+        });
     }
 }
 exports.auth = (req, res, next) => {
