@@ -25,6 +25,7 @@
     "mocha": "^4.1.0",
     "mochawesome": "^3.0.1",
     "mongoose": "^4.13.6",
+    "socket.io": "^2.0.4",
     "supertest": "^3.0.0"
   }
 }

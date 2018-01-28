@@ -68,8 +68,9 @@ export default {
 					self.loader = false;
 					self.message = res.data.msg;
 					self.status = res.data.status;
-					let args = {token:res.data.token, act:true};
+					let args = {token:res.data.token, user: res.data.user, act:true};
 					self.setToken(args);
+					self.$router.push('/chat');
 				}, 1000);
 			}).catch(function (err) {
 				setTimeout(function () {

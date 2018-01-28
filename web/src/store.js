@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export const state = {
 	sitename: 'Easy Chat',
 	apiUri: "http://localhost:3000/",
-	token: localStorage.getItem('token')
+	token: localStorage.getItem('token'),
+	user: localStorage.getItem('user')
 }
 export const actions = {
 	actToken: function({commit}, args) {
@@ -22,10 +23,13 @@ export const mutations = {
 		if(args.act)  {
 			if(args.token !== null) {
 				localStorage.setItem('token', args.token);
+				localStorage.setItem('user', JSON.stringify(args.user));
 			}
 		} else {
 			state.token = null;
+			state.user = null;
 			localStorage.removeItem('token');
+			localStorage.removeItem('user');
 		}
 	},
 	postApi: function (state, args) {
@@ -37,12 +41,13 @@ export const mutations = {
 		}).catch(function(res) {
 			if(typeof args.error === 'function') {
 				args.error(res)
-			}		
+			}
 		});
 	}
 }
 export const getters = {
   	isAuthUser: state => (state.token === null) ? false : true,
+  	currentUser: state => state.user,
 	getApiUri: (state, getters) => (path) => {
 		return state.apiUri + path;
 	}

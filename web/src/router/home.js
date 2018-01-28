@@ -10,10 +10,14 @@ const HomeRouter = [
     name: 'Signin',
     component: FormSignin,
     beforeEnter: (to, from, next) => {
-      if(to.query.signout) {
-        let args = {token:null, act: false};
-        store.commit('setToken', args);
-      }
+      if(store.getters.isAuthUser) {
+        if(to.query.signout) {
+          let args = {token:null, act: false};
+          store.commit('setToken', args);
+        } else {
+          next({name:'Chat'})
+        }
+      } 
       next()
     }
   },

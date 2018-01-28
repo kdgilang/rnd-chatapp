@@ -17,4 +17,7 @@ router.post('/sendactivation/', ctr.sendActivation);
 /* AUTH USER */
 router.post('/auth/', mdlr.auth, mdlr.genereteToken);
 
+/* Messages */
+router.post('/message/', mdlr.verifyToken, ctr.message);
+
 module.exports = router;

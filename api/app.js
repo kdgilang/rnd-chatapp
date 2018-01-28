@@ -22,6 +22,22 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+var port = process.env.PORT || '5000';
+const io = require('socket.io').listen(app.listen(port));
+
+io.sockets.on('connection', function (socket) {
+  console.log('client connect');
+  socket.on('echo', function (data) {
+    console.log(data);
+    io.sockets.emit('message', data);
+  });
+});
+
+// Make io accessible to our router
+app.use(function(req,res,next){
+  req.io = io;
+  next();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -5,6 +5,7 @@ import {sync} from 'vuex-router-sync'
 import App from './App'
 import router from './router'
 import {store} from './store'
+import socket from './socketio'
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

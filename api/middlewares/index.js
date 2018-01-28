@@ -21,7 +21,6 @@ exports.cors = (req, res, next) => {
 }
 exports.verifyToken = (req, res, next) => {
     var token = req.headers['authorization'];
-    console.log();
     if(typeof auth === undefined) {
         res.sendStatus(403);
     } else {
@@ -65,7 +64,7 @@ exports.auth = (req, res, next) => {
     });
 }
 exports.genereteToken = (req, res) => {
-    var user = res.user;
+    let user = res.user;
     let token = jwt.sign(user, cfg.JWTKEY);
-    res.status(200).json({status: true, msg: 'successfull signin', token: token});
+    res.status(200).json({status: true, msg: 'successfull signin', token: token, user: user});
 }

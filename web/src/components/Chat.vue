@@ -2,7 +2,7 @@
   <div class="row">
     <div id="contact" class="col-4">
       <div class="group-contact">
-        <h5 class="label contact-label"><span class="fa fa-address-book"></span>People</h5>
+        <h5 class="label contact-label"><span class="fa fa-address-book"></span>People </h5>
         <ul class="list contact-list">
           <li class="item-contact">
             <img src="/static/unknow.png" alt="avatar" class="avatar">
@@ -20,60 +20,16 @@
     <div id="chatroom" class="col-8">
       <div class="group-room">
         <ul class="list chat-list">
-          <li class="left">
-            <span>
-              <img src="/static/unknow.png" alt="avatar" class="avatar">
-              <span class="text">
-                <p>left chat</p>
-                <small>01 Desember 2017</small>
-              </span>
-            </span>
-          </li>
-          <li class="right">
-            <span>
-              <img src="/static/unknow.png" alt="avatar" class="avatar">
-              <span class="text">
-                <p>right chat</p>
-                <small>01 Desember 2017</small>
-              </span>
-            </span>
-          </li>
-          <li class="right">
-            <span>
-              <img src="/static/unknow.png" alt="avatar" class="avatar">
-              <span class="text">
-                <p>right chat</p>
-                <small>01 Desember 2017</small>
-              </span>
-            </span>
-          </li>
-          <li class="left">
-            <span>
-              <img src="/static/unknow.png" alt="avatar" class="avatar">
-              <span class="text">
-                <p>left chat</p>
-                <small>01 Desember 2017</small>
-              </span>
-            </span>
-          </li>
-          <li class="left">
-            <span>
-              <img src="/static/unknow.png" alt="avatar" class="avatar">
-              <span class="text">
-                <p>left chat</p>
-                <small>01 Desember 2017</small>
-              </span>
-            </span>
-          </li>
+          <chat-item v-for="list, key in lists" :user="list.user" :message="list.message" :mc="list.mc" :key="key"/>
         </ul>  
         <div class="editor-panel">
             <div class="row">
               <div class="col-9">
-                <input id="chateditor" placeholder="Type a message"/>
+                <input @keyup.enter="sendMessage" id="chateditor" placeholder="Type a message" v-model="message.content"/>
               </div>
               <div class="col-3">
                 <a href="javascript:;" class="button btn-emoji"><span class="fa fa-smile-o"></span></a>
-                <a href="javascript:;" class="button btn-send"><span class="fa fa-paper-plane"></span></a>
+                <a @click.prevent="sendMessage" class="button btn-send"><span class="fa fa-paper-plane"></span></a>
               </div>
             </div>
         </div>
@@ -84,20 +40,47 @@
 </template>
 
 <script>
+import chatLists from './chat-lists'
 export default {
   name: 'Chat',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      user: JSON.parse(this.$store.getters.currentUser),
+      message: {
+        content: null,
+        date: Date.now()
+      },
+      lists: []
     }
   },
-  created: function () {
-    this.$store.dispatch('postApi', {
-      url: this.$store.getters.getApiUri('users/lists'),
-      success: function (res) {
-        console.log(res.data);
+  sockets: {
+    connect: function() {
+      console.log('connected');
+    },
+    message: function(val) {
+      if(val.user.email === this.user.email) {
+        val.mc ='right';
+      } else {
+        val.mc ='left';
       }
-    })
+      this.lists.push(val);
+    }
+  },
+  methods: {
+    sendMessage() {
+      let message = this.message;
+      let self = this;
+      this.$store.dispatch('postApi', {
+        url: this.$store.getters.getApiUri('message'),
+        data: {message},
+        success: function (res) {
+          self.message.content = '';
+        }
+      })
+    }
+  },
+  components: {
+    'chat-item': chatLists
   }
 }
 </script>

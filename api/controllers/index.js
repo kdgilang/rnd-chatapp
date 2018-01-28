@@ -51,3 +51,8 @@ exports.verifyEmail = (req, res) => {
 		});
 	}
 }
+exports.message = (req, res) => {
+	const io = req.io;
+	io.sockets.emit('message', {user: req.user, message: req.body.message});
+	res.sendStatus(201);
+}
