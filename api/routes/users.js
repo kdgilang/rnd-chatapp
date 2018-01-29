@@ -7,11 +7,15 @@ router.get('/', function(req, res, next) {
   res.json({message:'signup'});
 });
 
+
 /* GET users listing. */
 router.get('/lists/', mdlr.verifyToken, userController.listsPublic);
 
-/* POST users listing secure. */
-router.post('/lists/', mdlr.verifyToken, userController.listsPrivate);
+/* GET user by key. */
+router.get('/filter/:key', mdlr.verifyToken, userController.listsByKey);
+
+/* POST user by id. */
+router.post('/filter/:id', mdlr.verifyToken, userController.listsPrivate);
 
 /* Add user. */
 router.post('/add/', userController.add);

@@ -21,7 +21,7 @@ exports.cors = (req, res, next) => {
 }
 exports.verifyToken = (req, res, next) => {
     var token = req.headers['authorization'];
-    if(typeof auth === undefined) {
+    if(token === undefined) {
         res.sendStatus(403);
     } else {
         let bearer = token.substring(7);

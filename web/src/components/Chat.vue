@@ -2,7 +2,8 @@
   <div class="row">
     <div id="contact" class="col-4">
       <div class="group-contact">
-        <h5 class="label contact-label"><span class="fa fa-address-book"></span>People </h5>
+        <h5 class="label contact-label"><span class="fa fa-address-book"></span>History</h5>
+        <search-user></search-user>
         <ul class="list contact-list">
           <li class="item-contact">
             <img src="/static/unknow.png" alt="avatar" class="avatar">
@@ -41,6 +42,7 @@
 
 <script>
 import chatLists from './chat-lists'
+import searchUser from './searchUser'
 export default {
   name: 'Chat',
   data () {
@@ -80,7 +82,8 @@ export default {
     }
   },
   components: {
-    'chat-item': chatLists
+    'chat-item': chatLists,
+    'search-user': searchUser
   }
 }
 </script>

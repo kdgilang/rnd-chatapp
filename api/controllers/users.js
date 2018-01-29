@@ -6,7 +6,6 @@ const hp = require('../helper')
 
 exports.add = (req, res) => {
 	var form = req.body;
-	stz.addUser.map(req.sanitize);
 	req.checkBody(vld.addUser);
 	req.getValidationResult()
 	.then((result) => {
@@ -71,6 +70,22 @@ exports.listsPrivate = (req, res) => {
 		else
 			res.status(200).json(listusers);
 	})
+}
+exports.listsByKey = (req, res) => {
+	let key = req.sanitize(req.params.key);
+	users.find(
+		{$or: [
+			{name: new RegExp(key, 'i')}
+			]
+		},
+		{_id:0, password:0},
+		function (err, listusers) {
+			if(err)
+				res.status(400).send(err);
+			else
+				res.status(200).json(listusers);
+		}
+	)
 }
 exports.listsPublic = (req, res) => {
 	users.find({}, {_id: 0, email: 0, __v:0}).exec((err, listusers) => {

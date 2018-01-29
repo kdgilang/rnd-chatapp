@@ -16,6 +16,9 @@ export const actions = {
 	},
 	postApi: function({commit}, args) {
 		commit('postApi', args);
+	},
+	getApi: function({commit}, args) {
+		commit('getApi', args);
 	}
 }
 export const mutations = {
@@ -34,6 +37,18 @@ export const mutations = {
 	},
 	postApi: function (state, args) {
 		axios.post(args.url, args.data, {headers:{Authorization: "Bearer\t" + state.token}})
+		.then(function (res) {
+			if(typeof args.success === 'function') {
+				args.success(res)
+			}
+		}).catch(function(res) {
+			if(typeof args.error === 'function') {
+				args.error(res)
+			}
+		});
+	},
+	getApi: function (state, args) {
+		axios.get(args.url, {headers:{Authorization: "Bearer\t" + state.token}})
 		.then(function (res) {
 			if(typeof args.success === 'function') {
 				args.success(res)
