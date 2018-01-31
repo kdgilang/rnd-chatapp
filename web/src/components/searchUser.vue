@@ -3,9 +3,14 @@
 		<input @keyup="searchUser" type="text" v-model="userkey" placeholder="Search user" class="form-control">
 		<span class="icon-search fa fa-search"></span>
 		<ul v-show="isSubmit" class="dropdown">
-			<li v-for="user in users"> 
-				<img src="" alt="">
-				<span class="name">{{user.name}}</span>
+			<li v-for="user in users">
+				<span class="img">
+					<img :src="user.meta.img_url" :alt="user.name" class="img-fluid">
+				</span>
+				<span class="name">
+					{{user.name}}
+					<span class="email">{{user.email}}</span>
+				</span>
 			</li>
 			<li v-show="notFound" class="notFound">User not Found.</li>
 		</ul>
@@ -16,7 +21,7 @@
 export default {
 	data() {
 		return {
-			userkey: null,
+			userkey: '',
 			isSubmit: false,
 			notFound: false,
 			users: null
@@ -24,29 +29,30 @@ export default {
 	},
 	computed: {
 		urlQuery() {
-			return this.$store.getters.getApiUri('users/filter/')+this.userkey
+			return this.$store.getters.getApiUri('user/filter/')+this.userkey
 		}
 	},
 	methods: {
 		searchUser() {
-			let self = this;
-			if(this.userkey !== null) {
+			if(/\S/.test(this.userkey) && this.userkey !== '') {
+				let that = this;
 				this.$store.dispatch('getApi', {
-					url: self.urlQuery,
+					url: that.urlQuery,
 					success: function (res) {
-						self.users = res.data;
-						self.isSubmit = true;
-						if(res.data.length < 1) {
-							self.notFound = true;
-						}
-					}, 
-					error: function (res) {
-						self.isSubmit = false;
+						that.isSubmit = true;
+						that.users = res.data;
+						if(res.data.length < 1)
+							that.notFound = true;
+						else
+							that.notFound = false;
+					},
+					error: function (err) {
+						that.isSubmit = false;
 					}
 				});
 			} else {
-				self.isSubmit = false;
-				self.notFound = false;
+				this.isSubmit = false;
+				this.notFound = false;
 			}
 		}
 	}
@@ -63,8 +69,43 @@ export default {
 		input
 			padding-right: 32px
 		.dropdown
-			padding: 8px 15px
+			margin-top: 10px
+			background-color: #fff
+			box-shadow: 0 0 5px rgba(0,0,0,0.2)
+			padding-left: 0
 			li
+				display: flex
+				cursor: default
 				list-style: none
+				padding: 8px 15px
 				text-align: left
+				&:hover
+					background-color: #efefef;
+				.img
+					border-radius: 10px
+					display: block
+					height: 20px
+					margin-top: 6px
+					overflow: hidden
+					width: 20px
+					img
+						display: block
+				.name
+					color: #333
+					display: block
+					font-size: 14px
+					margin-left: 10px
+					overflow: hidden
+					text-transform: capitalize
+					text-overflow: ellipsis
+					white-space: nowrap
+					width: 100px
+				.email
+					color: #aca
+					display: block
+					font-size: 8px
+					overflow: hidden
+					text-overflow: ellipsis
+					white-space: nowrap
+					width: 100%
 </style>

@@ -3,7 +3,7 @@
 		<h1 class="text-center title">{{title}}</h1>
 		<span id="icon-chat" class="fa fa-comments-o"></span>
 		<div class="o-form row">
-			<form @submit="submitRegister" :action="urlRegister" class="col-12" method="post">
+			<form @submit="submitRegister" :action="url" class="col-12" method="post">
 				<div :class="formGroup('name')">
 					<input ref="name" class="form-control" v-model="form.name" type="text" name="name" placeholder="Name ...">
 					<span v-html="getIcon('name')" class="has-icon"></span>
@@ -45,7 +45,7 @@ export default {
 	data () {
 		return {
 			title: 'Start Chatting',
-			urlRegister: 'http://localhost:3000/users/add',
+			url: this.$store.getters.getApiUri('user/add'),
 			form: {
 				name: null,
 				username: null,
@@ -62,9 +62,6 @@ export default {
 		}
 	},
 	computed: {
-		dataForm() {
-			return {...this.form,...this.formLogin}
-		}
 	},
 	methods: {
 		submitRegister(e) {
@@ -73,7 +70,7 @@ export default {
 			if(!self.isSubmit) {
 				self.isSubmit = true;
 				self.loader = true;
-				axios.post(this.urlRegister, this.form).then(function (res) {
+				axios.post(this.url, this.form).then(function (res) {
 					setTimeout(function () {
 						self.isSubmit = false;
 						self.isMessage = true;

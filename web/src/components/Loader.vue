@@ -32,7 +32,7 @@
   position: relative;
 }
 .cube1, .cube2 {
-  background-color: #fff;
+  background-color: #aca;
   width: 15px;
   height: 15px;
   position: absolute;

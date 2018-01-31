@@ -49,7 +49,7 @@ export default {
     return {
       user: JSON.parse(this.$store.getters.currentUser),
       message: {
-        content: null,
+        content: '',
         date: Date.now()
       },
       lists: []
@@ -70,15 +70,17 @@ export default {
   },
   methods: {
     sendMessage() {
-      let message = this.message;
-      let self = this;
-      this.$store.dispatch('postApi', {
-        url: this.$store.getters.getApiUri('message'),
-        data: {message},
-        success: function (res) {
-          self.message.content = '';
-        }
-      })
+      if(/\S/.test(this.message.content) && this.message.content !== '') {
+        let that = this;
+        this.$store.dispatch('postApi', {
+          url: this.$store.getters.getApiUri('message'),
+          data: that.message,
+          type: 'application/json',
+          success: function (res) {
+            that.message.content = '';
+          }
+        });
+      }
     }
   },
   components: {

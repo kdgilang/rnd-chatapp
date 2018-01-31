@@ -17,10 +17,10 @@ mongoose.connect(config.database.getDatabaseUrl(), {useMongoClient: true}, funct
   }
 });
 mongoose.Promise = global.Promise;
-require('./models/users');
+require('./models/user');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var user = require('./routes/user');
 
 var app = express();
 var port = process.env.PORT || '5000';
@@ -55,7 +55,7 @@ app.use(expressValidator());
 app.use(expressSanitizer());
 app.use(mdlr.cors);
 app.use('/', index);
-app.use('/users', users);
+app.use('/user/', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

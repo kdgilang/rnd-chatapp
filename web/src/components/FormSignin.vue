@@ -3,7 +3,7 @@
 		<h1 class="text-center title">{{title}}</h1>
 		<span id="icon-chat" class="fa fa-comments-o"></span>
 		<div class="o-form row">
-			<form @submit="submitLogin" action="urlLogin" class="form col-12">
+			<form @submit="submitLogin" :action="url" class="form col-12">
 				<div :class="formGroup('email')">
 					<input ref="email" class="form-control" v-model="form.email" type="text" name="email" placeholder="Email ...">
 					<span v-html="getIcon('email')" class="has-icon"></span>
@@ -38,7 +38,7 @@ export default {
 	data () {
 		return {
 			title: 'Start Chatting',
-			urlLogin: 'http://localhost:3000/auth',
+			url: this.$store.getters.getApiUri('auth'),
 			form: {
 				email: null,
 				password: null
@@ -61,7 +61,7 @@ export default {
 			var self = this;
 			self.isSubmit = true;
 			self.loader = true;
-			axios.post(this.urlLogin, this.form).then(function (res) {
+			axios.post(this.url, this.form).then(function (res) {
 				setTimeout(function () {
 					self.isSubmit = false;
 					self.isMessage = true;
@@ -70,7 +70,7 @@ export default {
 					self.status = res.data.status;
 					let args = {token:res.data.token, user: res.data.user, act:true};
 					self.setToken(args);
-					self.$router.push('/chat');
+					self.$router.go({name: 'Chat'});
 				}, 1000);
 			}).catch(function (err) {
 				setTimeout(function () {

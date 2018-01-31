@@ -25,4 +25,7 @@ exports.base64 = {
     return new Buffer(bs64, 'base64').toString('binary');
   }
 }
+module.exports.getDirUri = (req, path) => {
+    return req.protocol+"://"+req.get('host')+path;
+}
 exports.activationHtml = require('./content-activation');

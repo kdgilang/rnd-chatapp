@@ -21,7 +21,7 @@ export default {
 	data () {
 		return {
 			title: 'Start Chatting',
-			urlAction: 'http://localhost:3000/activation',
+			urlAction: this.$store.getters.getApiUri('activation'),
 			key: this.$route.params,
 			status: false,
 			isSubmit: false,

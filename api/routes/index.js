@@ -9,10 +9,10 @@ router.get('/', function(req, res, next) {
 });
 
 /* verify email. */
-router.post('/activation/', ctr.verifyEmail);
+router.post('/verification/', ctr.verification);
 
 /* Send Activation. */
-router.post('/sendactivation/', ctr.sendActivation);
+router.post('/send-email-verification/', ctr.sendVerification);
 
 /* AUTH USER */
 router.post('/auth/', mdlr.auth, mdlr.genereteToken);

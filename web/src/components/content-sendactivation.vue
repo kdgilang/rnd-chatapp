@@ -29,7 +29,7 @@ export default {
 	data () {
 		return {
 			title: 'Start Chatting',
-			urlAction: "http://localhost:3000/sendActivation",
+			url: this.$store.getters.getApiUri('send-email-verification'),
 			form: {
 				email: null,
 			},
@@ -46,7 +46,7 @@ export default {
 			var self = this;
 			self.isSubmit = true;
 			self.loader = true;
-			axios.post(this.urlAction, this.form).then(function (res) {
+			axios.post(this.url, this.form).then(function (res) {
 				setTimeout(function () {
 					self.isSubmit = false;
 					self.isMessage = true;

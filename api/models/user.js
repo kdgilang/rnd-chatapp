@@ -69,16 +69,20 @@ let users = mongoose.Schema({
 			default: false
 		}
 	},
-	// birthdate: {
-	// 	type: String,
-	// 	required: true,
-	// 	validate: {
-	// 		validator: (v)=>{
-	// 			return /^(0[1-9]|[1-2]\d|3[0-1])-(0[1-9]|1[0-2])-\d\d\d\d$/.test(v);
-	// 		},
-	// 		message: '{VALUE} is not valid date format (dd-mm-yyyy)!'
-	// 	}
-	// },
+	meta: {
+		birthdate: {
+			type: String,
+			validate: {
+				validator: (v)=>{
+					return /^(0[1-9]|[1-2]\d|3[0-1])-(0[1-9]|1[0-2])-\d\d\d\d$/.test(v);
+				},
+				message: '{VALUE} is not valid date format (dd-mm-yyyy)!'
+			}
+		},
+		img_url: {
+			type: String
+		}
+	},
 	created_date: {
 		type: Date,
 		default: Date.now

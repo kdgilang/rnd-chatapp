@@ -1,9 +1,9 @@
 const stz = require('../sanitizer');
-const users = require('../models/users');
+const users = require('../models/user');
 const vld = require('../validations');
 const hp = require('../helper');
 
-exports.sendActivation = (req, res) => {
+exports.sendVerification = (req, res) => {
 	var form = req.body;
 	stz.sendActivation.map(req.sanitize);
 	req.checkBody(vld.sendActivation);
@@ -29,7 +29,7 @@ exports.sendActivation = (req, res) => {
 		}
 	});
 }
-exports.verifyEmail = (req, res) => {
+exports.verification = (req, res) => {
 	var data = (req.body) ? req.body.data : false;
 	var status = false;
 	if(data) {
@@ -53,6 +53,6 @@ exports.verifyEmail = (req, res) => {
 }
 exports.message = (req, res) => {
 	const io = req.io;
-	io.sockets.emit('message', {user: req.user, message: req.body.message});
+	io.sockets.emit('message', {user: req.user, message: req.body});
 	res.sendStatus(201);
 }

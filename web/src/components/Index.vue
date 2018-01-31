@@ -7,7 +7,7 @@
 <script>
 import chat from './Chat';
 export default {
-	name: 'Home',
+	name: 'Index',
 	data() {
 		return {
 			token: this.$store.state.token
@@ -30,8 +30,6 @@ export default {
 		position: absolute
 		right: 0
 		text-align: center
-		.cube1
-			background-color: $color1
 	.c-form
 		background: $color4
 		bottom: 0

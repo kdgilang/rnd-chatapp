@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const vld = require('../validations/users');
-const stz = require('../sanitizer/users');
-const users = require('../models/users');
+const vld = require('../validations/user');
+const stz = require('../sanitizer/user');
+const users = require('../models/user');
 const cfg = require('../config');
 exports.cors = (req, res, next) => {
     // Website you wish to allow to connect
@@ -66,5 +66,6 @@ exports.auth = (req, res, next) => {
 exports.genereteToken = (req, res) => {
     let user = res.user;
     let token = jwt.sign(user, cfg.JWTKEY);
+    delete user.id;
     res.status(200).json({status: true, msg: 'successfull signin', token: token, user: user});
 }

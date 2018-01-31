@@ -47,6 +47,17 @@ module.exports = {
       errorMessage:'Invalid Password, Password should be contains at least one uppercase , one lowercase, one numeric, and min 8 character.'
     }
   },
+  updateUser:{
+    name:{
+      notEmpty:{
+        errorMessage: 'Name is required.'
+      },
+      isLength: {
+        options:[{min:3, max:30}],
+        errorMessage:'Invalid Name, Name at least 3 character.'
+      }
+    }
+  },
   authUser:{
     email:{
       notEmpty:{

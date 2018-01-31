@@ -36,14 +36,18 @@ export const mutations = {
 		}
 	},
 	postApi: function (state, args) {
-		axios.post(args.url, args.data, {headers:{Authorization: "Bearer\t" + state.token}})
+		let headers = {
+			Authorization: "Bearer\t" + state.token,
+			'Content-Type': args.type
+		}
+		axios.post(args.url, args.data, {headers})
 		.then(function (res) {
 			if(typeof args.success === 'function') {
 				args.success(res)
 			}
-		}).catch(function(res) {
+		}).catch(function(err) {
 			if(typeof args.error === 'function') {
-				args.error(res)
+				args.error(err)
 			}
 		});
 	},
@@ -53,9 +57,9 @@ export const mutations = {
 			if(typeof args.success === 'function') {
 				args.success(res)
 			}
-		}).catch(function(res) {
+		}).catch(function(err) {
 			if(typeof args.error === 'function') {
-				args.error(res)
+				args.error(err)
 			}
 		});
 	}

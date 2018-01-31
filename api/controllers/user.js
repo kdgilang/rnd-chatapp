@@ -1,7 +1,7 @@
 'use strict'
-const vld = require('../validations/users')
-const stz = require('../sanitizer/users')
-const users = require('../models/users')
+const vld = require('../validations/user')
+const stz = require('../sanitizer/user')
+const users = require('../models/user')
 const hp = require('../helper')
 
 exports.add = (req, res) => {
@@ -11,6 +11,8 @@ exports.add = (req, res) => {
 	.then((result) => {
 		if(result.isEmpty()) {
 			let user = new users(form);
+			if(user.meta.img_url === undefined)
+				user.meta.img_url = hp.getDirUri(req, '/images/unknow.png');
 			let hash = user.getPassword(form.password);
 			let status = user.getCompare(form.repassword, hash);
 			if(status) {
@@ -43,7 +45,7 @@ exports.add = (req, res) => {
 						}
 						user.save((err, user) => {
 							if(err)
-								console.log(err);
+								throw err;
 							else 
 								res.status(201).json({msg: 'Successfully Created.', status:true});
 						});
@@ -63,35 +65,42 @@ exports.add = (req, res) => {
 		}
 	});
 }
-exports.listsPrivate = (req, res) => {
-	users.find(function (err, listusers) {
-		if(err)
-			res.status(400).send(err);
-		else
-			res.status(200).json(listusers);
-	})
-}
-exports.listsByKey = (req, res) => {
-	let key = req.sanitize(req.params.key);
-	users.find(
-		{$or: [
-			{name: new RegExp(key, 'i')}
-			]
-		},
-		{_id:0, password:0},
-		function (err, listusers) {
-			if(err)
-				res.status(400).send(err);
-			else
-				res.status(200).json(listusers);
+exports.update = (req, res) => {
+	let form = req.body;
+	req.checkBody(vld.updateUser);
+	req.getValidationResult()
+	.then((result) => {
+		if(result.isEmpty()) {
+			console.log(result)
+		} else {
+			res.status(400).json(result.array()[0]);
 		}
-	)
+	});
 }
-exports.listsPublic = (req, res) => {
-	users.find({}, {_id: 0, email: 0, __v:0}).exec((err, listusers) => {
+exports.getCurrentUser = (req, res) => {
+	let cuser = req.user;
+	users.find({_id: cuser.id}, {_id:0, password: 0},function (err, user) {
+		if(err)
+			res.status(400).send(err);
+		else
+			res.status(200).json(user);
+	})
+}
+exports.getSingleUser = (req, res) => {
+	let username = req.sanitize(req.params.username);
+	users.find({username: username}, {_id:0, password: 0},function (err, user) {
+		if(err)
+			res.status(400).send(err);
+		else
+			res.status(200).json(user);
+	})
+}
+exports.getUserFilter = (req, res) => {
+	let key = req.sanitize(req.params.key);
+	users.find({name: new RegExp(key, 'i')},{_id:0, password:0}, function (err, listusers) {
 		if(err)
 			res.status(400).send(err);
 		else
 			res.status(200).json(listusers);
-	})
+	});
 }

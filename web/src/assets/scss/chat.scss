@@ -126,6 +126,7 @@ $height1: 800px;
             background-color: $color4;
             color: $color1;
             padding: $gridspace $gridspace 30px 20px;
+            text-align: left;
             &:after {
                 right: 8px;
                 border-bottom-color: $color4;

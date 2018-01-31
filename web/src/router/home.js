@@ -3,7 +3,7 @@ import FormSignup from '@/components/FormSignup'
 import Chat from '@/components/Chat'
 import ContentSendActivation from '@/components/content-sendactivation'
 import ContentActivation from '@/components/content-activation'
-import {store} from '../store'
+import {store} from '@/store'
 const HomeRouter = [
   {
     path: 'signin',
@@ -17,7 +17,7 @@ const HomeRouter = [
         } else {
           next({name:'Chat'})
         }
-      } 
+      }
       next()
     }
   },
