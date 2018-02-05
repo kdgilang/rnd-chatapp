@@ -2,7 +2,7 @@
 	<div id="profile">
 		<div class="form-group">
 			<div class="rounded-circle mx-auto">
-				<img :src="form.meta.img_url" :alt="form.name" class="img-fluid">
+				<img :src="imgsrc" :alt="form.name" class="img-fluid">
 				<span @click="openFile" class="fa fa-picture-o icon-changeimg"></span>
 			</div>
 		</div>
@@ -43,9 +43,11 @@ export default {
 			form: {
 				name: null,
 				meta: {
-					img_url:[]
+					img_url: new formData()
 				}
 			},
+			fd: new FormData(),
+			imgsrc: null,
 			status: false,
 			isSubmit: false,
 			isMessage: false,
@@ -56,6 +58,7 @@ export default {
 	},
 	methods: {
 		onSubmit(e) {
+			var dd = this.initData;
 			var that = this;
 			that.isSubmit = true;
 			that.loader = true;
@@ -87,8 +90,7 @@ export default {
 			let files = e.target.files || e.dataTransfer.files;
 			if (!files.length)
 				return;
-
-			this.form.meta.img_url.push(files[0]);
+			this.form.meta.imgurl = files[0];
 			this.createImage(files[0]);
 		},
 		createImage(file) {
@@ -114,14 +116,16 @@ export default {
 	},
 	created: function() {
 		let that = this;
-		this.$store.dispatch('postApi', {
+		this.$store.dispatch('getApi', {
 			url: this.urilists,
 			success: (res) => {
-				if(res.data[0] !== undefined)
+				if(res.data[0] !== undefined) {
 					that.form = Object.assign({},res.data[0]);
+					that.imgsrc = that.form.meta.img_url;
+				}
 			},
 			error: (err) => {
-				console.log('Error');
+				console.log(err);
 			}
 		});
 	}

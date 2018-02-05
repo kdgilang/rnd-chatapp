@@ -9,6 +9,8 @@ var expressSanitizer = require('express-sanitizer');
 const mongoose = require('mongoose');
 const config = require('./config');
 const mdlr = require('./middlewares');
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart();
 mongoose.connect(config.database.getDatabaseUrl(), {useMongoClient: true}, function(err) {
 	if(err) {
 		console.log(err);
@@ -47,6 +49,7 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(multipartMiddleware);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

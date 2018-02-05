@@ -67,11 +67,11 @@ exports.add = (req, res) => {
 }
 exports.update = (req, res) => {
 	let form = req.body;
+	console.log(form)
 	req.checkBody(vld.updateUser);
 	req.getValidationResult()
 	.then((result) => {
 		if(result.isEmpty()) {
-			console.log(result)
 		} else {
 			res.status(400).json(result.array()[0]);
 		}
