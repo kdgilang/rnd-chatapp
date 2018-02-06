@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export const state = {
 	sitename: 'Easy Chat',
 	apiUri: "http://localhost:3000/",
+	uploads: "",
 	token: localStorage.getItem('token'),
 	user: localStorage.getItem('user')
 }

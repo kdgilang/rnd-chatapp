@@ -43,7 +43,7 @@ export default {
 			form: {
 				name: null,
 				meta: {
-					img_url: new formData()
+					img_url: []
 				}
 			},
 			fd: new FormData(),
@@ -58,13 +58,14 @@ export default {
 	},
 	methods: {
 		onSubmit(e) {
-			var dd = this.initData;
 			var that = this;
 			that.isSubmit = true;
 			that.loader = true;
+			this.fd.set('name', this.form.name);
+			this.fd.set('meta.img_url', this.form.meta.img_url);
 			this.$store.dispatch('postApi', {
 				url: that.uri,
-				data: that.form,
+				data: that.fd,
 				type: 'multipart/form-data',
 				success: (res) => {
 					that.isSubmit = false;
@@ -90,7 +91,7 @@ export default {
 			let files = e.target.files || e.dataTransfer.files;
 			if (!files.length)
 				return;
-			this.form.meta.imgurl = files[0];
+			this.fd.set('newimg', files[0]);
 			this.createImage(files[0]);
 		},
 		createImage(file) {
@@ -115,6 +116,7 @@ export default {
 		}
 	},
 	created: function() {
+		console.log(__dirname)
 		let that = this;
 		this.$store.dispatch('getApi', {
 			url: this.urilists,

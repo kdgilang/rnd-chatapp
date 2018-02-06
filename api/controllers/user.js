@@ -3,6 +3,7 @@ const vld = require('../validations/user')
 const stz = require('../sanitizer/user')
 const users = require('../models/user')
 const hp = require('../helper')
+const fs = require('fs')
 
 exports.add = (req, res) => {
 	var form = req.body;
@@ -66,12 +67,25 @@ exports.add = (req, res) => {
 	});
 }
 exports.update = (req, res) => {
-	let form = req.body;
-	console.log(form)
 	req.checkBody(vld.updateUser);
 	req.getValidationResult()
 	.then((result) => {
 		if(result.isEmpty()) {
+			let cuser = req.user;
+			let form = req.body;
+			let files = req.files.newimg;
+			users.findOne({_id: cuser.id}, function (err, user) {
+				if(err)
+					throw err;
+				fs.createReadStream(files.path).pipe(fs.createWriteStream('newLog.jpg'));
+				user.name = form.name;
+				// user.meta.img_url = from.img_url;
+				user.save(function (err) {
+					if(err)
+						throw err;
+					res.status(200).json({status: true, msg: 'Successfull updated.'});
+				})
+			});
 		} else {
 			res.status(400).json(result.array()[0]);
 		}
