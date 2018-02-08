@@ -1,5 +1,6 @@
 const cfg = require('../config');
 const nodemailer = require('nodemailer');
+const fs = require('fs');
 
 // helper as email service
 exports.sendMail = (option) => {
@@ -27,5 +28,19 @@ exports.base64 = {
 }
 module.exports.getDirUri = (req, path) => {
     return req.protocol+"://"+req.get('host')+path;
+}
+module.exports.createDir = (fds) => {
+  if(typeof fds === 'object' ) {
+    for(var key in fds) {
+      let fd = cfg.DIR.root+"/"+fds[key];
+      fs.open(fd, 'r+', function (err) {
+        if(err !== null && err.code === 'ENOENT') {
+          fs.mkdirSync(fd, '0o777');
+        }
+      });
+    }
+  } else {
+    return false;
+  }
 }
 exports.activationHtml = require('./content-activation');

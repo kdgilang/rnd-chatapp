@@ -9,7 +9,8 @@ export const state = {
 	apiUri: "http://localhost:3000/",
 	uploads: "",
 	token: localStorage.getItem('token'),
-	user: localStorage.getItem('user')
+	user: localStorage.getItem('user'),
+	userHistory: null
 }
 export const actions = {
 	actToken: function({commit}, args) {

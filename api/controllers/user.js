@@ -4,6 +4,7 @@ const stz = require('../sanitizer/user')
 const users = require('../models/user')
 const hp = require('../helper')
 const fs = require('fs')
+const DIR = require('../config').DIR
 
 exports.add = (req, res) => {
 	var form = req.body;
@@ -77,9 +78,12 @@ exports.update = (req, res) => {
 			users.findOne({_id: cuser.id}, function (err, user) {
 				if(err)
 					throw err;
-				fs.createReadStream(files.path).pipe(fs.createWriteStream('newLog.jpg'));
+				let pp =DIR.root+"/"+DIR.to.pp+cuser.id+'.jpg';
+				let imgsrc = hp.getDirUri(req, "/"+DIR.to.pp+cuser.id+'.jpg')
+				fs.createReadStream(files.path).pipe(fs.createWriteStream(pp));
 				user.name = form.name;
-				// user.meta.img_url = from.img_url;
+				user.meta.img_url = imgsrc;
+				console.log(imgsrc);
 				user.save(function (err) {
 					if(err)
 						throw err;

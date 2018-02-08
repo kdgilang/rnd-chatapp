@@ -12,10 +12,6 @@
 				<input ref="name" class="form-control" v-model="form.name" type="text" name="name" placeholder="Name ...">
 				<span v-html="getIcon('name')" class="has-icon"></span>
 			</div>
-<!-- 			<div :class="formGroup('birthday')">
-				<input ref="birthday" class="form-control" v-model="form.birthday" type="date" name="birthday" placeholder="birthday ...">
-				<span v-html="getIcon('birthday')" class="has-icon"></span>
-			</div> -->
 			<div class="form-group">
 				<button class="btn btn-primary">Save</button>
 			</div>

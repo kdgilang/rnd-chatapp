@@ -11,6 +11,7 @@ const config = require('./config');
 const mdlr = require('./middlewares');
 const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart();
+require('./helper').createDir(config.DIR.to);
 mongoose.connect(config.database.getDatabaseUrl(), {useMongoClient: true}, function(err) {
 	if(err) {
 		console.log(err);
@@ -52,7 +53,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use("/public", express.static(path.join(__dirname, 'public')));
+app.use("/uploads", express.static(path.join(__dirname, 'uploads')));
 app.use(expressValidator());
 app.use(expressSanitizer());
 app.use(mdlr.cors);

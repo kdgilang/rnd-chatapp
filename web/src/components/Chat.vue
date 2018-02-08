@@ -4,24 +4,13 @@
       <div class="group-contact">
         <h5 class="label contact-label"><span class="fa fa-address-book"></span>History</h5>
         <search-user></search-user>
-        <ul class="list contact-list">
-          <li class="item-contact">
-            <img src="/static/unknow.png" alt="avatar" class="avatar">
-            <span class="name"> Person Name </span>
-            <span class="status online" title="online"></span>
-          </li>
-          <li class="item-contact">
-            <img src="/static/unknow.png" alt="avatar" class="avatar">
-            <span class="name"> Person Name </span>
-            <span class="status offline" title="offline"></span>
-          </li>
-        </ul>
+        <user-list cs="contact-list" :users="userHistory" show="true"></user-list>
       </div>
     </div>
     <div id="chatroom" class="col-8">
       <div class="group-room">
         <ul class="list chat-list">
-          <chat-item v-for="list, key in lists" :user="list.user" :message="list.message" :mc="list.mc" :key="key"/>
+          <chat-lists v-for="list, key in lists" :user="list.user" :message="list.message" :mc="list.mc" :key="key"/>
         </ul>  
         <div class="editor-panel">
             <div class="row">
@@ -41,10 +30,16 @@
 </template>
 
 <script>
-import chatLists from './chat-lists'
-import searchUser from './searchUser'
+import ChatLists from './chat-lists'
+import SearchUser from './search-user'
+import UserList from './user-list'
 export default {
   name: 'Chat',
+  components: {
+    ChatLists,
+    SearchUser,
+    UserList
+  },
   data () {
     return {
       user: JSON.parse(this.$store.getters.currentUser),
@@ -52,7 +47,14 @@ export default {
         content: '',
         date: Date.now()
       },
-      lists: []
+      lists: [],
+      users: []
+    }
+  },
+  computed: {
+    userHistory() {
+      (this.$store.state.userHistory !== null) ? this.users.push(this.$store.state.userHistory) : null;
+      return this.users;
     }
   },
   sockets: {
@@ -82,10 +84,6 @@ export default {
         });
       }
     }
-  },
-  components: {
-    'chat-item': chatLists,
-    'search-user': searchUser
   }
 }
 </script>
