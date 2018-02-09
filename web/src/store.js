@@ -10,7 +10,7 @@ export const state = {
 	uploads: "",
 	token: localStorage.getItem('token'),
 	user: localStorage.getItem('user'),
-	userHistory: null
+	userHistory: []
 }
 export const actions = {
 	actToken: function({commit}, args) {

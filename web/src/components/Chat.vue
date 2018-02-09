@@ -4,7 +4,7 @@
       <div class="group-contact">
         <h5 class="label contact-label"><span class="fa fa-address-book"></span>History</h5>
         <search-user></search-user>
-        <user-list cs="contact-list" :users="userHistory" show="true"></user-list>
+        <user-list @delete-user="deleteUser" cs="contact-list" :users="users" show="true"></user-list>
       </div>
     </div>
     <div id="chatroom" class="col-8">
@@ -47,14 +47,12 @@ export default {
         content: '',
         date: Date.now()
       },
-      lists: [],
-      users: []
+      lists: []
     }
   },
   computed: {
-    userHistory() {
-      (this.$store.state.userHistory !== null) ? this.users.push(this.$store.state.userHistory) : null;
-      return this.users;
+    users() {
+      return this.$store.state.userHistory;
     }
   },
   sockets: {
@@ -83,6 +81,9 @@ export default {
           }
         });
       }
+    },
+    deleteUser(data) {
+     this.$store.state.userHistory.splice(data,1);
     }
   }
 }

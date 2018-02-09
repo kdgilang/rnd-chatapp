@@ -15,6 +15,9 @@ $height1: 800px;
         border-radius: 30px;
         width: 30px;
     }
+    .row {
+        height: 100%;
+    }
 }
 #chatroom {
     padding-left: 0;
@@ -144,6 +147,8 @@ $height1: 800px;
 }
 #contact {
     border-right: 1px solid $color3;
+    height: 100%;
+    overflow-y: auto;
 }
 .group-contact {
     padding-bottom: $gridspace;

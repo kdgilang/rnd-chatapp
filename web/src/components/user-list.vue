@@ -1,6 +1,6 @@
 <template>
 	<ul :class="cs" v-show="show">
-		<li @click="selectUser(key)" class="item-contact" v-for="user, key in users" v-if="user">
+		<li @click="selectUser(key)" class="item" v-for="user, key in users" v-if="user">
 			<span class="img">
 				<img :src="user.meta.img_url" :alt="user.name" class="img-fluid">
 				<span class="status online" title="online"></span>
@@ -9,9 +9,10 @@
 				{{user.name}}
 				<span class="email">{{user.email}}</span>
 			</span>
+			<span @click="deleteUser(key)" class="fa fa-times delete" title="delete"></span>
 		</li>
-		<li v-if="users!==null">
-			<span v-if="users.length<1">Not Found.</span>
+		<li v-if="users.length<1">
+			<span>Not Found.</span>
 		</li>
 	</ul>
 </template>
@@ -25,7 +26,10 @@
 		},
 		methods: {
 			selectUser(key) {
-				this.$store.state.userHistory = this.users[key];
+				this.$emit('select-user', this.users[key]);
+			},
+			deleteUser(key) {
+				this.$emit('delete-user', key);
 			}
 		}
 	}
@@ -34,8 +38,13 @@
 @import '../assets/scss/variable'
 .contact-list
 	margin-top: 10px
+	height: 636px
+	overflow-y: auto
 	padding-left: 0
 	width: 100%
+	.item
+		&:hover
+			background-color: #efefef
 	li
 		display: flex
 		cursor: default
@@ -43,8 +52,6 @@
 		padding: 8px 15px
 		position: relative
 		text-align: left
-		&:hover
-			background-color: #efefef
 		.img
 			border-radius: 35px
 			display: block
@@ -84,4 +91,18 @@
 				background-color: $color4
 			&.offline
 				background-color: $color5
+		.delete
+			border-radius: 17px;
+			display: block
+			font-size: 12px
+			height: 17px
+			line-height: 17px;
+			position: absolute
+			right: 10px
+			text-align: center
+			top: 18px
+			transition: background-color 0.3s ease
+			width: 17px
+			&:hover
+				background-color: #ccc
 </style>

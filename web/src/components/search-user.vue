@@ -2,7 +2,7 @@
 	<div id="searchUser" class="form-group">
 		<input @keyup="searchUser" type="text" v-model="userkey" placeholder="Search user" class="form-control">
 		<span class="icon-search fa fa-search"></span>
-		<user-list :show="isSubmit" :users="users" cs="dropdown"/>
+		<user-list v-on:mouseover="userlisthover" @select-user="selectUser" :show="isSubmit" :users="users" cs="dropdown"/>
 	</div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
 			userkey: '',
 			isSubmit: false,
 			notFound: false,
-			users: null
+			users: []
 		}
 	},
 	computed: {
@@ -48,9 +48,36 @@ export default {
 				this.notFound = false;
 			}
 		},
-	    selectUser(payload) {
-	      console.log('asdf')
+	    selectUser(user) {
+	    	let usersHistory = this.$store.state.userHistory;
+	    	let status = true;
+	    	if(usersHistory.length<=0) {
+	    		this.$store.state.userHistory.push(user);
+	    	} else {
+		    	new Promise(function(resolve, reject){
+			    	usersHistory.find(function(val, key) {
+			    		if(val.email === user.email) {
+			    			status = false
+			    		}
+			    		resolve(status);
+			    	});
+			    }).then(function (status) {
+		    		if(status) {
+		    			this.$store.state.userHistory.push(user);
+		    		}
+		    	});
+	    	}
+	    },
+	    userlisthover() {
+			console.log('d')
+		 	that.isSubmit = false;
 	    }
+	},
+	created: function() {
+		// let that = this;
+		// document.getElementById("user-list-search").addEventListener('mouseover', function () {
+
+		// });
 	}
 }
 </script>
@@ -69,6 +96,10 @@ export default {
 		background-color: #fff
 		box-shadow: 0 0 5px rgba(0,0,0,0.2)
 		padding-left: 0
+		position: absolute
+		left: 0
+		width: 100%
+		z-index: 10
 		li
 			display: flex
 			cursor: default
@@ -104,4 +135,6 @@ export default {
 				text-overflow: ellipsis
 				white-space: nowrap
 				width: 100%
+			.delete
+				display: none
 </style>
