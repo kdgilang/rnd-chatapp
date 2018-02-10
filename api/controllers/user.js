@@ -95,30 +95,19 @@ exports.update = (req, res) => {
 		}
 	});
 }
-exports.getCurrentUser = (req, res) => {
-	let cuser = req.user;
-	users.find({_id: cuser.id}, {_id:0, password: 0},function (err, user) {
-		if(err)
-			res.status(400).send(err);
-		else
-			res.status(200).json(user);
-	})
-}
 exports.getSingleUser = (req, res) => {
 	let username = req.sanitize(req.params.username);
 	users.find({username: username}, {_id:0, password: 0},function (err, user) {
 		if(err)
-			res.status(400).send(err);
-		else
-			res.status(200).json(user);
+			throw err;
+
+		res.status(200).json(user);
 	})
 }
-exports.getUserFilter = (req, res) => {
-	let key = req.sanitize(req.params.key);
-	users.find({name: new RegExp(key, 'i')},{_id:0, password:0}, function (err, listusers) {
+exports.getUsers = (req, res) => {
+	users.find({'activation.status': true},{_id:0}, function (err, listusers) {
 		if(err)
-			res.status(400).send(err);
-		else
-			res.status(200).json(listusers);
+			throw err;
+		res.status(200).json(listusers);
 	});
 }

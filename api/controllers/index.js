@@ -3,7 +3,7 @@ const users = require('../models/user');
 const vld = require('../validations');
 const hp = require('../helper');
 
-exports.sendVerification = (req, res) => {
+exports.sendActivation = (req, res) => {
 	var form = req.body;
 	stz.sendActivation.map(req.sanitize);
 	req.checkBody(vld.sendActivation);
@@ -12,8 +12,8 @@ exports.sendVerification = (req, res) => {
 		if(result.isEmpty()) {
 			users.findOne({email: form.email}, function (err, user) {
 				if(err)
-					console.log(err);
-				if(user!== null) {
+					throw err;
+				if(user !== null && user.activation.key !== undefined) {
 					if(!user.activation.status) {
 						let key = users.methods.getKey(user);
 						user.url = user.getUrlKey(key);
@@ -21,15 +21,16 @@ exports.sendVerification = (req, res) => {
 						res.status(200).json({msg: 'Activation successfully sent.', status: true});
 					} else 
 						res.status(400).json({msg: 'Account already active.', status: false});
-				} else 
+				} else {
 					res.status(400).json({msg: 'Email does not exists.', status: false});
+				}
 			});
 		} else {
 			res.status(400).json(result.array()[0]);
 		}
 	});
 }
-exports.verification = (req, res) => {
+exports.activation = (req, res) => {
 	var data = (req.body) ? req.body.data : false;
 	var status = false;
 	if(data) {

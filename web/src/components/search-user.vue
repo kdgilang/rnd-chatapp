@@ -2,7 +2,7 @@
 	<div id="searchUser" class="form-group">
 		<input @keyup="searchUser" type="text" v-model="userkey" placeholder="Search user" class="form-control">
 		<span class="icon-search fa fa-search"></span>
-		<user-list v-on:mouseover="userlisthover" @select-user="selectUser" :show="isSubmit" :users="users" cs="dropdown"/>
+		<user-list v-on:mouseover="userlisthover" @select-user="selectUser" :show="isSubmit" :users="usersres" cs="dropdown"/>
 	</div>
 </template>
 
@@ -17,30 +17,22 @@ export default {
 			userkey: '',
 			isSubmit: false,
 			notFound: false,
-			users: []
-		}
-	},
-	computed: {
-		urlQuery() {
-			return this.$store.getters.getApiUri('user/filter/')+this.userkey
+			users: null,
+			usersres: []
 		}
 	},
 	methods: {
 		searchUser() {
 			if(/\S/.test(this.userkey) && this.userkey !== '') {
 				let that = this;
-				this.$store.dispatch('getApi', {
-					url: that.urlQuery,
-					success: function (res) {
+				that.usersres = [];
+				that.users.find(function(val, key) {
+					let userkey = new RegExp(that.userkey, 'i');
+					if(userkey.test(val.name)) {
 						that.isSubmit = true;
-						that.users = res.data;
-						if(res.data.length < 1)
-							that.notFound = true;
-						else
-							that.notFound = false;
-					},
-					error: function (err) {
-						that.isSubmit = false;
+						that.usersres.push(val);
+					} else {
+						that.notFound = true;
 					}
 				});
 			} else {
@@ -74,10 +66,16 @@ export default {
 	    }
 	},
 	created: function() {
-		// let that = this;
-		// document.getElementById("user-list-search").addEventListener('mouseover', function () {
-
-		// });
+		let that = this;
+		this.$store.dispatch('getApi', {
+			url: that.$store.getters.getApiUri('user/all/'),
+			success: function (res) {
+				that.users = res.data;
+			},
+			error: function (err) {
+				that.users = [];
+			}
+		});
 	}
 }
 </script>

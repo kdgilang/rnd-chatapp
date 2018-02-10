@@ -4,13 +4,10 @@ const userController = require('../controllers/user');
 const mdlr = require('../middlewares');
 
 /* GET current user*/
-router.get('/',  mdlr.verifyToken, userController.getCurrentUser);
+router.get('/all/',  mdlr.verifyToken, userController.getUsers);
 
 /* GET single user. */
 router.get('/:username', mdlr.verifyToken, userController.getSingleUser);
-
-/* GET user by key. */
-router.get('/filter/:key', mdlr.verifyToken, userController.getUserFilter);
 
 /* Add user. */
 router.post('/add/', userController.add);

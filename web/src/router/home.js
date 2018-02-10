@@ -14,6 +14,7 @@ const HomeRouter = [
         if(to.query.signout) {
           let args = {token:null, act: false};
           store.commit('setToken', args);
+          to.query.signout = false;
         } else {
           next({name:'Chat'})
         }

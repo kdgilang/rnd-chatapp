@@ -29,7 +29,7 @@ export default {
 	data () {
 		return {
 			title: 'Start Chatting',
-			url: this.$store.getters.getApiUri('send-email-verification'),
+			url: this.$store.getters.getApiUri('send-email-activation'),
 			form: {
 				email: null,
 			},
