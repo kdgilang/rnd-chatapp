@@ -21,9 +21,11 @@ mongoose.connect(config.database.getDatabaseUrl(), {useMongoClient: true}, funct
 });
 mongoose.Promise = global.Promise;
 require('./models/user');
+require('./models/message');
 
 var index = require('./routes/index');
 var user = require('./routes/user');
+var message = require('./routes/message');
 
 var app = express();
 var port = process.env.PORT || '5000';
@@ -61,6 +63,7 @@ app.use(mdlr.cors);
 app.use(multipartMiddleware);
 app.use('/', index);
 app.use('/user/', user);
+app.use('/message', message);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

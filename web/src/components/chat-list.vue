@@ -3,7 +3,7 @@
     <span>
       <img src="/static/unknow.png" alt="avatar" class="avatar">
       <span class="text">
-        <p>{{message.content}}</p>
+        <p>{{message.body}}</p>
         <small>{{message.date}}</small>
       </span>
     </span>
@@ -12,7 +12,7 @@
 
 <script>
 	export default {
-		name: 'chat-lists',
+		name: 'chat-list',
 		props:['user','message', 'mc'],
 		data() {
 			return {

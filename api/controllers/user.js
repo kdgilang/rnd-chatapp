@@ -14,7 +14,7 @@ exports.add = (req, res) => {
 		if(result.isEmpty()) {
 			let user = new users(form);
 			if(user.meta.img_url === undefined)
-				user.meta.img_url = hp.getDirUri(req, '/images/unknow.png');
+				user.meta.img_url = hp.getDirUri(req, '/public/images/unknow.png');
 			let hash = user.getPassword(form.password);
 			let status = user.getCompare(form.repassword, hash);
 			if(status) {
@@ -83,7 +83,6 @@ exports.update = (req, res) => {
 				fs.createReadStream(files.path).pipe(fs.createWriteStream(pp));
 				user.name = form.name;
 				user.meta.img_url = imgsrc;
-				console.log(imgsrc);
 				user.save(function (err) {
 					if(err)
 						throw err;
@@ -105,7 +104,7 @@ exports.getSingleUser = (req, res) => {
 	})
 }
 exports.getUsers = (req, res) => {
-	users.find({'activation.status': true},{_id:0}, function (err, listusers) {
+	users.find({_id:{$ne:req.user.id},'activation.status': true},{_id:0}, function (err, listusers) {
 		if(err)
 			throw err;
 		res.status(200).json(listusers);

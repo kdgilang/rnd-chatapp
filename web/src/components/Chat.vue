@@ -4,18 +4,18 @@
       <div class="group-contact">
         <h5 class="label contact-label"><span class="fa fa-address-book"></span>History</h5>
         <search-user></search-user>
-        <user-list @delete-user="deleteUser" cs="contact-list" :users="users" show="true"></user-list>
+        <user-list @delete-user="deleteUser" @select-user="selectUser" cs="contact-list" :users="users" show="true"></user-list>
       </div>
     </div>
     <div id="chatroom" class="col-8">
       <div class="group-room">
         <ul class="list chat-list">
-          <chat-lists v-for="list, key in lists" :user="list.user" :message="list.message" :mc="list.mc" :key="key"/>
-        </ul>  
+          <chat-list v-for="list, key in lists" :user="list.user" :message="list.message" :mc="list.mc" :key="key"/>
+        </ul>
         <div class="editor-panel">
             <div class="row">
               <div class="col-9">
-                <input @keyup.enter="sendMessage" id="chateditor" placeholder="Type a message" v-model="message.content"/>
+                <input @keyup.enter="sendMessage" id="chateditor" placeholder="Type a message" v-model="message.body"/>
               </div>
               <div class="col-3">
                 <a href="javascript:;" class="button btn-emoji"><span class="fa fa-smile-o"></span></a>
@@ -30,13 +30,13 @@
 </template>
 
 <script>
-import ChatLists from './chat-lists'
+import ChatList from './chat-list'
 import SearchUser from './search-user'
 import UserList from './user-list'
 export default {
   name: 'Chat',
   components: {
-    ChatLists,
+    ChatList,
     SearchUser,
     UserList
   },
@@ -44,7 +44,8 @@ export default {
     return {
       user: JSON.parse(this.$store.getters.currentUser),
       message: {
-        content: '',
+        body: '',
+        to: null,
         date: Date.now()
       },
       lists: []
@@ -70,21 +71,32 @@ export default {
   },
   methods: {
     sendMessage() {
-      if(/\S/.test(this.message.content) && this.message.content !== '') {
+      if(/\S/.test(this.message.body) && this.message.body !== '') {
         let that = this;
         this.$store.dispatch('postApi', {
           url: this.$store.getters.getApiUri('message'),
           data: that.message,
           type: 'application/json',
           success: function (res) {
-            that.message.content = '';
+            that.message.body = '';
           }
         });
       }
     },
     deleteUser(data) {
      this.$store.state.userHistory.splice(data,1);
+    },
+    selectUser(data) {
+      this.message.to = data.email;
     }
+  },
+  created: function() {
+    this.$store.dispatch('getApi', {
+      url: this.$store.getters.getApiUri('message'),
+      success: function (res) {
+        console.log(res);
+      }
+    });
   }
 }
 </script>

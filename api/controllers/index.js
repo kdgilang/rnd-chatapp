@@ -52,8 +52,3 @@ exports.activation = (req, res) => {
 		});
 	}
 }
-exports.message = (req, res) => {
-	const io = req.io;
-	io.sockets.emit('message', {user: req.user, message: req.body});
-	res.sendStatus(201);
-}
