@@ -3,7 +3,7 @@ var config = {
 	JWTKEY:'Easy Chat V1.0',
 	database: require('./database'),
 	DIR: {
-		root: process.env.PWD+"/api",
+		root: process.env.PWD,
 		to: {
 			uploads: 'uploads',
 			pp: 'uploads/pp/'
