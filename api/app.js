@@ -1,6 +1,5 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -12,13 +11,7 @@ const mdlr = require('./middlewares');
 const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart();
 require('./helper').createDir(config.DIR.to);
-mongoose.connect(config.database.getDatabaseUrl(), {useMongoClient: true}, function(err) {
-	if(err) {
-		console.log(err);
-  } else {
-    console.log('connected to database');
-  }
-});
+mongoose.connect(config.database.getDatabaseUrl());
 mongoose.Promise = global.Promise;
 require('./models/user');
 require('./models/message');
@@ -28,8 +21,9 @@ var user = require('./routes/user');
 var message = require('./routes/message');
 
 var app = express();
-var port = process.env.PORT || '5000';
-const io = require('socket.io').listen(app.listen(port));
+var port = process.env.PORT || '5555';
+const { Server } = require('socket.io');
+const io = new Server(app.listen(port));
 
 io.sockets.on('connection', function (socket) {
   console.log('client connect');

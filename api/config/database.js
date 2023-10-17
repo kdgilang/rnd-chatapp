@@ -1,9 +1,9 @@
-var database = {
-	dbname: 'easychat',
-	user: 'root',
-	password: '123123123',
+const database = {
+	dbname: 'newssubscriber',
+	dbuser: 'gilangtravlr',
+	dbpassword: 'nkMPCo0l7NGKHEoI',
 	getDatabaseUrl: function() {
-		return 'mongodb://'+this.user+':'+this.password+'@easychat-shard-00-00-6z6xo.mongodb.net:27017,easychat-shard-00-01-6z6xo.mongodb.net:27017,easychat-shard-00-02-6z6xo.mongodb.net:27017/'+this.dbname+'?ssl=true&replicaSet=easychat-shard-0&authSource=admin';
+		return `mongodb+srv://${this.dbuser}:${this.dbpassword}@${this.dbname}.kz6skzv.mongodb.net/?retryWrites=true&w=majority`;
 	}
 };
 module.exports = database;
